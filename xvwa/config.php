@@ -2,7 +2,7 @@
 $XVWA_WEBROOT = '';
 $host = "127.0.0.1";
 $dbname = 'xvwa';
-$user = 'root';
+$user = 'xvwa';
 $pass = 'letmein12';
 $conn = mysql_connect($host,$user,$pass);
 $conn = mysql_select_db($dbname);
