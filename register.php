@@ -53,19 +53,19 @@
         <div class="row" id="divalert"></div>
         <form action="register.php" method="post">
           <div class="form-group has-feedback">
-            <input type="text" class="form-control" id="txtname" placeholder="Display name">
+            <input type="text" class="form-control" id="txtname" placeholder="Display name" required>
             <span class="glyphicon glyphicon-user form-control-feedback"></span>
           </div>
           <div class="form-group has-feedback">
-            <input type="email" class="form-control" id="txtemail" placeholder="Email">
+            <input type="email" class="form-control" id="txtemail" placeholder="Email" required>
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
           </div>
           <div class="form-group has-feedback">
-            <input type="password" class="form-control" id="txtpassword" placeholder="Password">
+            <input type="password" class="form-control" id="txtpassword" placeholder="Password" required>
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
           </div>
           <div class="form-group has-feedback">
-            <input type="password" class="form-control" id="txtpasswordconfirm" placeholder="Retype password">
+            <input type="password" class="form-control" id="txtpasswordconfirm" placeholder="Retype password" required>
             <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
           </div>
           <div class="row">
@@ -88,17 +88,30 @@
 
     <script>
     function mysubmit() {
-      if (document.getElementById("txtpassword").value == document.getElementById("txtpasswordconfirm").value) {
-        var txtpassword = document.getElementById("txtpassword").value;
-        var txtname = document.getElementById("txtname").value;
-        var txtemail = document.getElementById("txtemail").value;
-        $.post("register.php", {name:txtname,email:txtemail,password:txtpassword}, null);
-        document.getElementById("divalert").innerHTML = "<div class='info-box bg-green'><span class='info-box-icon bg-green'><i class='fa fa-thumbs-o-up'></i></span><div class='info-box-content'><span class='info-box-text'>Done!</span><span class='info-box-number'>You will now be redirected to the login page</span></div></div>";
-        setTimeout(function() {window.location="login.php";}, 2500);
+      if (document.getElementById("txtname").value != "") {
+        if (document.getElementById("txtemail").value != "") {
+          if (document.getElementById("txtpassword").value != "") {
+            if (document.getElementById("txtpassword").value == document.getElementById("txtpasswordconfirm").value) {
+              var txtpassword = document.getElementById("txtpassword").value;
+              var txtname = document.getElementById("txtname").value;
+              var txtemail = document.getElementById("txtemail").value;
+              $.post("register.php", {name:txtname,email:txtemail,password:txtpassword}, null);
+              document.getElementById("divalert").innerHTML = "<div class='info-box bg-green'><span class='info-box-icon bg-green'><i class='fa fa-thumbs-o-up'></i></span><div class='info-box-content'><span class='info-box-text'>Done!</span><span class='info-box-number'>You will now be redirected to the login page</span></div></div>";
+              setTimeout(function() {window.location="login.php";}, 2500);
 
+            } else {
+              document.getElementById("divalert").innerHTML = "<div class='info-box bg-red'><span class='info-box-icon bg-red'><i class='fa fa-exclamation-circle'></i></span><div class='info-box-content'><span class='info-box-text'>Error creating account</span><span class='info-box-number'>Passwords are different</span></div></div>";
+            }
+          } else {
+            document.getElementById("divalert").innerHTML = "<div class='info-box bg-red'><span class='info-box-icon bg-red'><i class='fa fa-exclamation-circle'></i></span><div class='info-box-content'><span class='info-box-text'>Error creating account</span><span class='info-box-number'>Must enter password</span></div></div>";
+          }
+        } else {
+          document.getElementById("divalert").innerHTML = "<div class='info-box bg-red'><span class='info-box-icon bg-red'><i class='fa fa-exclamation-circle'></i></span><div class='info-box-content'><span class='info-box-text'>Error creating account</span><span class='info-box-number'>Must enter an email address</span></div></div>";
+        }
       } else {
-        document.getElementById("divalert").innerHTML = "<div class='info-box bg-red'><span class='info-box-icon bg-red'><i class='fa fa-exclamation-circle'></i></span><div class='info-box-content'><span class='info-box-text'>Error creating account</span><span class='info-box-number'>Passwords are different</span></div></div>";
+        document.getElementById("divalert").innerHTML = "<div class='info-box bg-red'><span class='info-box-icon bg-red'><i class='fa fa-exclamation-circle'></i></span><div class='info-box-content'><span class='info-box-text'>Error creating account</span><span class='info-box-number'>Must enter a display name</span></div></div>";
       }
+
 
     }
     </script>
