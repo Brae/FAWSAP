@@ -2,19 +2,20 @@
 
 <?php
   include("php/config.php");
-  $options = [
-    'cost' => 11,
-  ];
-  $passwordfrompost = $_POST['password'];
-  $hash = password_hash($passwordfrompost, PASSWORD_BCRYPT, $options);
-  $name = $_POST['name'];
-  $email = $_POST['email'];
+  if($_SERVER["REQUEST_METHOD"] == "POST") {
+    $options = [
+      'cost' => 11,
+    ];
+    $passwordfrompost = $_POST['password'];
+    $hash = password_hash($passwordfrompost, PASSWORD_BCRYPT, $options);
+    $name = $_POST['name'];
+    $email = $_POST['email'];
 
-  $sql = "INSERT INTO users (email, password, name) VALUES ('".$email."','".$hash."','".$name."')";
-  if(!mysqli_query($db,$sql)) {
-      echo "Error creating record";
+    $sql = "INSERT INTO users (email, password, name) VALUES ('".$email."','".$hash."','".$name."')";
+    if(!mysqli_query($db,$sql)) {
+        echo "Error creating record";
+    }
   }
-
 ?>
 
 <html>
