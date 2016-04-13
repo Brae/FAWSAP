@@ -258,12 +258,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <!-- Sidebar Menu -->
           <ul class="sidebar-menu">
             <li class="header">MAIN</li>
-            <li><a href="./indexnew.html"><i class="fa fa-link"></i> <span>Home</span></a></li>
+            <li><a href="./index.php"><i class="fa fa-link"></i> <span>Home</span></a></li>
             <li class="header">APPS</li>
             <!-- Optionally, you can add icons to the links -->
-            <li class="active"><a href="./bricks.html"><i class="fa fa-link"></i> <span>Bricks</span></a></li>
-            <li><a href="./dvwa.html"><i class="fa fa-link"></i> <span>DVWA</span></a></li>
-            <li><a href="./xvwa.html"><i class="fa fa-link"></i> <span>XVWA</span></a></li>
+            <li><a href="./bricks.php"><i class="fa fa-link"></i> <span>Bricks</span></a></li>
+            <li><a href="./dvwa.php"><i class="fa fa-link"></i> <span>DVWA</span></a></li>
+            <li><a href="./xvwa.php"><i class="fa fa-link"></i> <span>XVWA</span></a></li>
           </ul><!-- /.sidebar-menu -->
         </section>
         <!-- /.sidebar -->
