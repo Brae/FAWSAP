@@ -93,6 +93,8 @@
         var txtname = document.getElementById("txtname").value;
         var txtemail = document.getElementById("txtemail").value;
         $.post("register.php", {name:txtname,email:txtemail,password:txtpassword}, null);
+        document.getElementById("divalert").innerHTML = "<div class='info-box bg-green'><span class='info-box-icon bg-green'><i class='fa fa-thumbs-o-up'></i></span><div class='info-box-content'><span class='info-box-text'>Done!</span><span class='info-box-number'>You will now be redirected to the login page</span></div></div>";
+        setTimeout(function() {window.location="login.php";}, 2500);
 
       } else {
         document.getElementById("divalert").innerHTML = "<div class='info-box bg-red'><span class='info-box-icon bg-red'><i class='fa fa-exclamation-circle'></i></span><div class='info-box-content'><span class='info-box-text'>Error creating account</span><span class='info-box-number'>Passwords are different</span></div></div>";
