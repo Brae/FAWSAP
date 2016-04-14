@@ -433,7 +433,7 @@ if(iframeDVWA) {
   startTimer();
 }
 
-var temp = document.getElementById('dvwa').contentWindow.document.getElementById('success');
+var findWinTag = document.getElementById('dvwa').contentWindow.document.getElementById('success');
 
 </script>
 
