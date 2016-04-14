@@ -302,7 +302,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <!-- START IFRAME-->
 
                     <div class="embed-responsive embed-responsive-4by3">
-                      <iframe id="dvwa" class="embed-responsive-item" src="http://127.0.0.1:8080/dvwa/" ></iframe>
+                      <iframe id="dvwa" class="embed-responsive-item" src="./dvwa/" ></iframe>
                     </div>
                     <!--END IFRAME-->
                   </div>
@@ -433,12 +433,7 @@ if(iframeDVWA) {
   startTimer();
 }
 
-// using reference to iframe (ifrm) obtained above
-var win = iframeDVWA.contentWindow; // reference to iframe's window
-// reference to document in iframe
-var doc = iframeDVWA.contentDocument? iframeDVWA.contentDocument: iframeDVWA.contentWindow.document;
-// reference to form named 'demoForm' in iframe
-var form = doc.getElementById('success');
+var temp = document.getElementById('dvwa').contentWindow.document.getElementById('success');
 
 </script>
 
