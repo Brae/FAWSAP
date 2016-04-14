@@ -3,6 +3,7 @@
 This is a starter template page. Use this page to start your new project from
 scratch. This page gets rid of all links and provides the needed markup only.
 -->
+<?php include('php/session.php'); ?>
 <html>
   <head>
     <meta charset="utf-8">
@@ -184,15 +185,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <!-- The user image in the navbar-->
                   <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
                   <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                  <span class="hidden-xs">Andy Barlow</span>
+                  <span class="hidden-xs"><?php echo $name; ?></span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- The user image in the menu -->
                   <li class="user-header">
                     <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                     <p>
-                      Andy Barlow - Haxxor
-                      <small>Member since Nov. 2012</small>
+                      <?php echo $name; ?>
                     </p>
                   </li>
                   <!-- Menu Body -->
@@ -213,7 +213,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <a href="#" class="btn btn-default btn-flat">Profile</a>
                     </div>
                     <div class="pull-right">
-                      <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                      <a href="#" class="btn btn-default btn-flat" onclick="parent.location='index.php?logout=TRUE'">Sign out</a>
                     </div>
                   </li>
                 </ul>
@@ -238,7 +238,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
-              <p>Andy Barlow</p>
+              <p><?php echo $name; ?></p>
               <!-- Status -->
               <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
@@ -258,12 +258,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <!-- Sidebar Menu -->
           <ul class="sidebar-menu">
             <li class="header">MAIN</li>
-            <li><a href="./indexnew.html"><i class="fa fa-link"></i> <span>Home</span></a></li>
+            <li><a href="./index.php"><i class="fa fa-link"></i> <span>Home</span></a></li>
             <li class="header">APPS</li>
             <!-- Optionally, you can add icons to the links -->
-            <li class="active"><a href="./bricks.html"><i class="fa fa-link"></i> <span>Bricks</span></a></li>
-            <li><a href="./dvwa.html"><i class="fa fa-link"></i> <span>DVWA</span></a></li>
-            <li><a href="./xvwa.html"><i class="fa fa-link"></i> <span>XVWA</span></a></li>
+            <li><a href="./bricks.php"><i class="fa fa-link"></i> <span>Bricks</span></a></li>
+            <li><a href="./dvwa.php"><i class="fa fa-link"></i> <span>DVWA</span></a></li>
+            <li><a href="./xvwa.php"><i class="fa fa-link"></i> <span>XVWA</span></a></li>
           </ul><!-- /.sidebar-menu -->
         </section>
         <!-- /.sidebar -->
