@@ -1,7 +1,6 @@
 <?php
 
 if( isset( $_REQUEST[ 'Submit' ] ) ) {
-	$start_time = microtime();
 	// Get input
 	$id = $_REQUEST[ 'id' ];
 
@@ -24,9 +23,8 @@ if( isset( $_REQUEST[ 'Submit' ] ) ) {
 		$i++;
 	}
 	if($i > 1) {
-		$end_time = microtime();
-			$html .= "<pre>SUCCESS<br />YOU HACKED IT!</pre>";
-				$html .= "<pre>You completed the challenge in: <br />". $end_time - $start_time ."</pre>";
+		$html .= "<pre id='success'>SUCCESS<br />YOU HACKED IT!</pre>";
+
 	}
 
 	mysql_close();
