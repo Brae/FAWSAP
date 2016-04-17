@@ -435,6 +435,19 @@ if(iframeDVWA) {
 
 var findWinTag = document.getElementById('dvwa').contentWindow.document.getElementById('success');
 
+
+
+
+
+</script>
+<script>
+
+var successTag = document.getElementById('dvwa').contentWindow.document.querySelector('success');
+successTag.addEventListener('change', function(e) {
+  console.log("CHANGED");
+  alert("changed!");
+  successTag();
+});
 </script>
 
 
