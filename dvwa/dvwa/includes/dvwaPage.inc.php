@@ -19,12 +19,13 @@ if( !isset( $html ) ) {
 // Valid security levels
 $security_levels = array('low', 'medium', 'high', 'impossible');
 if( !isset( $_COOKIE[ 'security' ] ) || !in_array( $_COOKIE[ 'security' ], $security_levels ) ) {
-	// Set security cookie to impossible if no cookie exists
+	// Set security cookie to low if no cookie exists
 	if( in_array( $_DVWA[ 'default_security_level' ], $security_levels) ) {
 		dvwaSecurityLevelSet( $_DVWA[ 'default_security_level' ] );
 	}
 	else {
-		dvwaSecurityLevelSet( 'impossible' );
+		//dvwaSecurityLevelSet( 'impossible' );
+		dvwaSecurityLevelSet( 'low' );
 	}
 
 	if( $_DVWA[ 'default_phpids_level' ] == 'enabled' )
