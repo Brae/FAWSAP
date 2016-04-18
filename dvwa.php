@@ -452,7 +452,7 @@ var challengeCheck = function() {
     	
   });
   } else {
-    challengeWon = true;
+
     timer.stop();
   }
   
