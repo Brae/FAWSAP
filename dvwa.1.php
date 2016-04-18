@@ -31,6 +31,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+
   </head>
   <!--
   BODY TAG OPTIONS:
@@ -200,7 +202,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <a href="#" class="btn btn-default btn-flat">Profile</a>
                     </div>
                     <div class="pull-right">
-                      <a href="#" class="btn btn-default btn-flat" onclick="parent.location='index.php?logout=TRUE'">Sign out</a>
+                      <a href="#" class="btn btn-default btn-flat"  onclick="parent.location='index.php?logout=TRUE'">Sign out</a>
                     </div>
                   </li>
                 </ul>
@@ -248,11 +250,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <li><a href="./index.php"><i class="fa fa-link"></i> <span>Home</span></a></li>
             <li class="header">APPS</li>
             <!-- Optionally, you can add icons to the links -->
-        <li class="active"><a href="./bricks.php"><i class="fa fa-link"></i> <span>Bricks</span></a></li>
+<li class="active"><a href="./bricks.php"><i class="fa fa-link"></i> <span>Bricks</span></a></li>
             <li><a href="./dvwa.php"><i class="fa fa-link"></i> <span>DVWA</span></a></li>
             <li><a href="./xvwa.php"><i class="fa fa-link"></i> <span>XVWA</span></a></li>
             <li><a href="./leaderboard.php"><i class="fa fa-link"></i> <span>LeaderBoard</span></a></li>
-            </li>
+            <li class="header">Statistics</li>
+            <li style="color:white;">Timer:</li>
+          <h3>  <li id="timer" style="color:red;">00:00:00</li> </h3>
+          <li id="charCount" style="color:white;">CharCount:</li>
+          <li id="clickCount" style="color:white;">ClickCount:</li>
+
           </ul><!-- /.sidebar-menu -->
         </section>
         <!-- /.sidebar -->
@@ -263,8 +270,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Bricks
-            <small>OWASP web app</small>
+            DVWA
+            <small>Damn Vulnerable Web App</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
@@ -287,7 +294,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <!-- PRODUCT LIST -->
                 <div class="box box-primary">
                   <div class="box-header with-border">
-                    <h3 class="box-title">BRICKS</h3>
+                    <h3 class="box-title">DVWA - Damn Vulnerable Web App</h3>
                     <div class="box-tools pull-right">
                       <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                       <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -298,7 +305,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <!-- START IFRAME-->
 
                     <div class="embed-responsive embed-responsive-4by3">
-                      <iframe class="embed-responsive-item" src="bricks/" ></iframe>
+                      <iframe id="dvwa" class="embed-responsive-item" src="./dvwa/" onload="winCheck();"></iframe>
                     </div>
                     <!--END IFRAME-->
                   </div>
@@ -404,5 +411,81 @@ scratch. This page gets rid of all links and provides the needed markup only.
          Both of these plugins are recommended to enhance the
          user experience. Slimscroll is required when using the
          fixed layout. -->
+
+         <script src="js/easytimer.min.js"></script>
+
+
+
+
+
+<script>
+  
+
+//add charcount counter
+var charCount = 0;
+var clickCount = 0;
+var timer = new Timer();
+// var charCountfunc = function() {
+// 		//document.getElementById("charCount").style.backgroundColor = "red";
+    
+// 		console.log("KEY PRESSED");
+//     charCount++;
+//     console.log(charCount);
+//     document.getElementById("charCount").innerHTML = "CharCount: " + charCount;
+//     return charCount;
+// 	}
+	//wincheck for success tag
+var winCheck = function() {
+	var findWinTag = document.getElementById('dvwa').contentWindow.document.getElementById('success');
+	if (findWinTag != null) {
+		console.log("Success!");
+		timer.stop();
+		document.getElementById('dvwa').contentWindow.document.getElementById('success').style.color = "green";
+		document.getElementById('timer').style.color = "green";
+	} else {
+		console.log("No Success!");
+	}
+  
+  
+  //add event listen for keypress (keydown cos keypressed not valid on IE)
+	document.getElementById('dvwa').contentWindow.document.addEventListener("keydown", function() {
+    console.log("KEY PRESSED");
+    charCount++;
+    console.log(charCount);
+    document.getElementById("charCount").innerHTML = "CharCount: " + charCount;
+  });
+  
+  
+  //event for mouseclick
+  document.getElementById('dvwa').contentWindow.document.addEventListener("click", function() {
+    console.log("MOUSE CLICK");
+    clickCount++;
+    console.log(clickCount);
+    document.getElementById("clickCount").innerHTML = "ClickCount: " + clickCount;
+    	
+  });
+}
+
+
+
+
+//start timer on iframe instance
+var startTimer = function() {
+		timer.start();
+		timer.addEventListener('secondsUpdated', function(e) {
+			$('#timer').html(timer.getTimeValues().toString());
+		});
+	}
+	//get iframe by id "dvwa"
+var iframeDVWA = document.getElementById("dvwa");
+//if test exists then start timer
+if (iframeDVWA) {
+	startTimer();
+}
+
+
+</script>
+
+
   </body>
 </html>

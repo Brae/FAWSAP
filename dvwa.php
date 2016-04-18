@@ -250,12 +250,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <li><a href="./index.php"><i class="fa fa-link"></i> <span>Home</span></a></li>
             <li class="header">APPS</li>
             <!-- Optionally, you can add icons to the links -->
-            <li class="active"><a href="./bricks.html"><i class="fa fa-link"></i> <span>Bricks</span></a></li>
-            <li><a href="./dvwa.html"><i class="fa fa-link"></i> <span>DVWA</span></a></li>
-            <li><a href="./xvwa.html"><i class="fa fa-link"></i> <span>XVWA</span></a></li>
-            <li class="header">TIMER</li>
+<li class="active"><a href="./bricks.php"><i class="fa fa-link"></i> <span>Bricks</span></a></li>
+            <li><a href="./dvwa.php"><i class="fa fa-link"></i> <span>DVWA</span></a></li>
+            <li><a href="./xvwa.php"><i class="fa fa-link"></i> <span>XVWA</span></a></li>
+            <li><a href="./leaderboard.php"><i class="fa fa-link"></i> <span>LeaderBoard</span></a></li>
+            <li class="header">Statistics</li>
             <li style="color:white;">Timer:</li>
-          <h3>  <li id="timer" style="color:white;">00:00:00</li> </h3>
+          <h3>  <li id="timer" style="color:red;">00:00:00</li> </h3>
+          <li id="charCount" style="color:white;">CharCount:</li>
+          <li id="clickCount" style="color:white;">ClickCount:</li>
 
           </ul><!-- /.sidebar-menu -->
         </section>
@@ -302,7 +305,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <!-- START IFRAME-->
 
                     <div class="embed-responsive embed-responsive-4by3">
-                      <iframe id="dvwa" class="embed-responsive-item" src="./dvwa/" ></iframe>
+                      <iframe id="dvwa" class="embed-responsive-item" src="./dvwa/" onload="winCheck();"></iframe>
                     </div>
                     <!--END IFRAME-->
                   </div>
@@ -416,38 +419,79 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
 <script>
+  
 
+//add charcount counter
+var timer = new Timer();
+var charCount = 0;
+var clickCount = 0;
+var challengeWon = false;
+var challengeCheck = function() {
+
+  var isChallenge = document.getElementById('dvwa').contentWindow.document.getElementById('challenge');
+  
+  if(isChallenge != null && challengeWon != true) {
+    //start timing
+    startTimer();
+    
+      //add event listen for keypress (keydown cos keypressed not valid on IE)
+	document.getElementById('dvwa').contentWindow.document.addEventListener("keydown", function() {
+    console.log("KEY PRESSED");
+    charCount++;
+    console.log(charCount);
+    document.getElementById("charCount").innerHTML = "CharCount: " + charCount;
+  });
+  
+  
+  //event for mouseclick
+  document.getElementById('dvwa').contentWindow.document.addEventListener("click", function() {
+    console.log("MOUSE CLICK");
+    clickCount++;
+    console.log(clickCount);
+    document.getElementById("clickCount").innerHTML = "ClickCount: " + clickCount;
+    	
+  });
+  } else {
+    challengeWon = true;
+    timer.stop();
+  }
+  
+
+}
+
+	//wincheck for success tag
+var winCheck = function() {
+  // challengeCheck();
+	var findWinTag = document.getElementById('dvwa').contentWindow.document.getElementById('success');
+	if (findWinTag != null) {
+		console.log("Success!");
+		timer.stop();
+    challengeWon = true;
+		document.getElementById('dvwa').contentWindow.document.getElementById('success').style.color = "green";
+		document.getElementById('timer').style.color = "green";
+	} else {
+		console.log("No Success!");
+	}
+  
+  challengeCheck();
+}
 
 //start timer on iframe instance
 var startTimer = function() {
-  var timer = new Timer();
-  timer.start();
-  timer.addEventListener('secondsUpdated', function (e) {
-      $('#timer').html(timer.getTimeValues().toString());
-  });
-}
-//get iframe by id "dvwa"
+ 
+		timer.start();
+		timer.addEventListener('secondsUpdated', function(e) {
+			$('#timer').html(timer.getTimeValues().toString());
+		});
+	}
+	//get iframe by id "dvwa"
 var iframeDVWA = document.getElementById("dvwa");
 //if test exists then start timer
-if(iframeDVWA) {
-  startTimer();
+if (iframeDVWA) {
+	challengeCheck();
 }
 
-var findWinTag = document.getElementById('dvwa').contentWindow.document.getElementById('success');
 
-
-
-
-
-</script>
-<script>
-
-var successTag = document.getElementById('dvwa').contentWindow.document.querySelector('success');
-successTag.addEventListener('change', function(e) {
-  console.log("CHANGED");
-  alert("changed!");
-  successTag();
-});
 </script>
 
 

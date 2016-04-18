@@ -1,5 +1,6 @@
 <?php
-
+//define as a challenge
+$html .= "<div id='challenge'></div>";
 if( isset( $_REQUEST[ 'Submit' ] ) ) {
 	// Get input
 	$id = $_REQUEST[ 'id' ];
@@ -24,7 +25,6 @@ if( isset( $_REQUEST[ 'Submit' ] ) ) {
 	}
 	if($i > 1) {
 		$html .= "<pre id='success'>SUCCESS<br />YOU HACKED IT!</pre>";
-
 	}
 
 	mysql_close();
