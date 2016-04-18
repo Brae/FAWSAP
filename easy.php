@@ -3,7 +3,14 @@
 This is a starter template page. Use this page to start your new project from
 scratch. This page gets rid of all links and provides the needed markup only.
 -->
-<?php include('php/session.php'); ?>
+<?php
+include ('php/session.php');
+$config = fopen("config/easy_list.cfg", "r");
+$challenges = array();
+while (!feof($config)) {
+	$challenges[] = fgets($config);
+}
+ ?>
 <html>
   <head>
     <meta charset="utf-8">
@@ -25,25 +32,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
     -->
     <link rel="stylesheet" href="dist/css/skins/skin-blue.min.css">
 
-    <!-- iCheck -->
-    <link rel="stylesheet" href="plugins/iCheck/flat/blue.css">
-    <!-- Morris chart -->
-    <link rel="stylesheet" href="plugins/morris/morris.css">
-    <!-- jvectormap -->
-    <link rel="stylesheet" href="plugins/jvectormap/jquery-jvectormap-1.2.2.css">
-    <!-- Date Picker -->
-    <link rel="stylesheet" href="plugins/datepicker/datepicker3.css">
-    <!-- Daterange picker -->
-    <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker-bs3.css">
-    <!-- bootstrap wysihtml5 - text editor -->
-    <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
-
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    
+    
+
+
   </head>
   <!--
   BODY TAG OPTIONS:
@@ -213,7 +211,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <a href="#" class="btn btn-default btn-flat">Profile</a>
                     </div>
                     <div class="pull-right">
-                      <a href="#" class="btn btn-default btn-flat" onclick="parent.location='index.php?logout=TRUE'">Sign out</a>
+                      <a href="#" class="btn btn-default btn-flat"  onclick="parent.location='index.php?logout=TRUE'">Sign out</a>
                     </div>
                   </li>
                 </ul>
@@ -261,11 +259,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <li><a href="./index.php"><i class="fa fa-link"></i> <span>Home</span></a></li>
             <li class="header">APPS</li>
             <!-- Optionally, you can add icons to the links -->
-            <li><a href="./bricks.php"><i class="fa fa-link"></i> <span>Bricks</span></a></li>
+<li class="active"><a href="./bricks.php"><i class="fa fa-link"></i> <span>Bricks</span></a></li>
             <li><a href="./dvwa.php"><i class="fa fa-link"></i> <span>DVWA</span></a></li>
             <li><a href="./xvwa.php"><i class="fa fa-link"></i> <span>XVWA</span></a></li>
-            <li class="header">CHALLENGES</li>
-            <li><a href="./easy.php"><i class="fa fa-link"></i> <span>Easy</span></a></li>
+            <li><a href="./leaderboard.php"><i class="fa fa-link"></i> <span>LeaderBoard</span></a></li>
+            <li class="header">Statistics</li>
+            <li style="color:white;">Timer:</li>
+          <h3>  <li id="timer" style="color:red;">00:00:00</li> </h3>
+          <li id="charCount" style="color:white;">CharCount:</li>
+          <li id="clickCount" style="color:white;">ClickCount:</li>
+
           </ul><!-- /.sidebar-menu -->
         </section>
         <!-- /.sidebar -->
@@ -276,8 +279,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            FAWSAP
-            <small>F*cking Awesome Web Security App Platform</small>
+            DVWA
+            <small>Damn Vulnerable Web App</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
@@ -287,229 +290,47 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         <!-- Main content -->
         <section class="content">
-          <!-- Small boxes (Stat box) -->
-          <div class="row">
-            <div class="col-lg-3 col-xs-6">
-              <!-- small box -->
-              <div class="small-box bg-aqua">
-                <div class="inner">
-                  <h3>150</h3>
-                  <p>Challenges</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-bag"></i>
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-              </div>
-            </div><!-- ./col -->
-            <div class="col-lg-3 col-xs-6">
-              <!-- small box -->
-              <div class="small-box bg-green">
-                <div class="inner">
-                  <h3>53<sup style="font-size: 20px">%</sup></h3>
-                  <p>Challenges Completed</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-stats-bars"></i>
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-              </div>
-            </div><!-- ./col -->
-            <div class="col-lg-3 col-xs-6">
-              <!-- small box -->
-              <div class="small-box bg-yellow">
-                <div class="inner">
-                  <h3>44th</h3>
-                  <p>User Leaderboard</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-person-add"></i>
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-              </div>
-            </div><!-- ./col -->
-            <div class="col-lg-3 col-xs-6">
-              <!-- small box -->
-              <div class="small-box bg-red">
-                <div class="inner">
-                  <h3>65</h3>
-                  <p>Unique Visitors</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-pie-graph"></i>
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-              </div>
-            </div><!-- ./col -->
-          </div><!-- /.row -->
-          <!-- Main row -->
-          <div class="row">
-            <!-- Left col -->
-            <section class="col-lg-7 connectedSortable">
-              <!-- Custom tabs (Charts with tabs)-->
-              <div class="nav-tabs-custom">
-                <!-- Tabs within a box -->
-                <ul class="nav nav-tabs pull-right">
-                  <li class="active"><a href="#revenue-chart" data-toggle="tab">Area</a></li>
-                  <li><a href="#sales-chart" data-toggle="tab">Donut</a></li>
-                  <li class="pull-left header"><i class="fa fa-inbox"></i>Time Spent</li>
-                </ul>
-                <div class="tab-content no-padding">
-                  <!-- Morris chart - Sales -->
-                  <div class="chart tab-pane active" id="revenue-chart" style="position: relative; height: 300px;"></div>
-                  <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;"></div>
-                </div>
-              </div><!-- /.nav-tabs-custom -->
 
-              <!-- Chat box -->
-              <div class="box box-success">
-                <div class="box-header">
-                  <i class="fa fa-comments-o"></i>
-                  <h3 class="box-title">Chat</h3>
-                  <div class="box-tools pull-right" data-toggle="tooltip" title="Status">
-                    <div class="btn-group" data-toggle="btn-toggle" >
-                      <button type="button" class="btn btn-default btn-sm active"><i class="fa fa-square text-green"></i></button>
-                      <button type="button" class="btn btn-default btn-sm"><i class="fa fa-square text-red"></i></button>
+
+
+
+            <!-- Main row -->
+            <div class="row">
+              <!-- Left col -->
+              <div class="col-md-12">
+
+
+                <!-- PRODUCT LIST -->
+                <div class="box box-primary">
+                  <div class="box-header with-border">
+                    <h3 class="box-title">DVWA - Damn Vulnerable Web App</h3>
+                    <div class="box-tools pull-right">
+                      <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                      <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                     </div>
                   </div>
-                </div>
-                <div class="box-body chat" id="chat-box">
-                  <!-- chat item -->
-                  <div class="item">
-                    <img src="dist/img/user4-128x128.jpg" alt="user image" class="online">
-                    <p class="message">
-                      <a href="#" class="name">
-                        <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 2:15</small>
-                        Mike Doe
-                      </a>
-                      I would like to meet you to discuss the latest news about
-                      the arrival of the new theme. They say it is going to be one the
-                      best themes on the market
-                    </p>
-                    <div class="attachment">
-                      <h4>Attachments:</h4>
-                      <p class="filename">
-                        Theme-thumbnail-image.jpg
-                      </p>
-                      <div class="pull-right">
-                        <button class="btn btn-primary btn-sm btn-flat">Open</button>
-                      </div>
-                    </div><!-- /.attachment -->
-                  </div><!-- /.item -->
-                  <!-- chat item -->
-                  <div class="item">
-                    <img src="dist/img/user3-128x128.jpg" alt="user image" class="offline">
-                    <p class="message">
-                      <a href="#" class="name">
-                        <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 5:15</small>
-                        Alexander Pierce
-                      </a>
-                      I would like to meet you to discuss the latest news about
-                      the arrival of the new theme. They say it is going to be one the
-                      best themes on the market
-                    </p>
-                  </div><!-- /.item -->
-                  <!-- chat item -->
-                  <div class="item">
-                    <img src="dist/img/user2-160x160.jpg" alt="user image" class="offline">
-                    <p class="message">
-                      <a href="#" class="name">
-                        <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 5:30</small>
-                        Susan Doe
-                      </a>
-                      I would like to meet you to discuss the latest news about
-                      the arrival of the new theme. They say it is going to be one the
-                      best themes on the market
-                    </p>
-                  </div><!-- /.item -->
-                </div><!-- /.chat -->
-                <div class="box-footer">
-                  <div class="input-group">
-                    <input class="form-control" placeholder="Type message...">
-                    <div class="input-group-btn">
-                      <button class="btn btn-success"><i class="fa fa-plus"></i></button>
+                  <!-- /.box-header -->
+                  <div class="box-body">
+                    <!-- START IFRAME-->
+
+                    <div class="embed-responsive embed-responsive-4by3">
+                      <iframe id="dvwa" name="mainframe" class="embed-responsive-item" src=<?php echo "'/FAWSAP/" . $challenges[0] . "'"; ?> onload="winCheck();"></iframe>
                     </div>
+                    <!--END IFRAME-->
                   </div>
+                  <!-- /.box-body -->
+                  <div class="box-footer text-center">
+                    <a href="javascript::;" class="uppercase">END FOOTER</a>
+                  </div>
+                  <!-- /.box-footer -->
                 </div>
-              </div><!-- /.box (chat box) -->
-            </section><!-- /.Left col -->
-            <!-- right col (We are only adding the ID to make the widgets sortable)-->
-            <section class="col-lg-5 connectedSortable">
-
-              <!-- Map box -->
-              <div class="box box-solid bg-light-blue-gradient">
-                <div class="box-header">
-                  <!-- tools box -->
-                  <div class="pull-right box-tools">
-                    <button class="btn btn-primary btn-sm daterange pull-right" data-toggle="tooltip" title="Date range"><i class="fa fa-calendar"></i></button>
-                    <button class="btn btn-primary btn-sm pull-right" data-widget="collapse" data-toggle="tooltip" title="Collapse" style="margin-right: 5px;"><i class="fa fa-minus"></i></button>
-                  </div><!-- /. tools -->
-
-                  <i class="fa fa-map-marker"></i>
-                  <h3 class="box-title">
-                    Visitors Online
-                  </h3>
-                </div>
-                <div class="box-body">
-                  <div id="world-map" style="height: 250px; width: 100%;"></div>
-                </div><!-- /.box-body-->
-                <div class="box-footer no-border">
-                  <div class="row">
-                    <div class="col-xs-4 text-center" style="border-right: 1px solid #f4f4f4">
-                      <div id="sparkline-1"></div>
-                      <div class="knob-label">Visitors</div>
-                    </div><!-- ./col -->
-                    <div class="col-xs-4 text-center" style="border-right: 1px solid #f4f4f4">
-                      <div id="sparkline-2"></div>
-                      <div class="knob-label">Online</div>
-                    </div><!-- ./col -->
-                    <div class="col-xs-4 text-center">
-                      <div id="sparkline-3"></div>
-                      <div class="knob-label">Exists</div>
-                    </div><!-- ./col -->
-                  </div><!-- /.row -->
-                </div>
+                <!-- /.box -->
               </div>
-              <!-- /.box -->
+              <!-- /.col -->
+            </div>
 
-              <!-- solid sales graph -->
-              <div class="box box-solid bg-teal-gradient">
-                <div class="box-header">
-                  <i class="fa fa-th"></i>
-                  <h3 class="box-title">Sales Graph</h3>
-                  <div class="box-tools pull-right">
-                    <button class="btn bg-teal btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                    <button class="btn bg-teal btn-sm" data-widget="remove"><i class="fa fa-times"></i></button>
-                  </div>
-                </div>
-                <div class="box-body border-radius-none">
-                  <div class="chart" id="line-chart" style="height: 250px;"></div>
-                </div><!-- /.box-body -->
-                <div class="box-footer no-border">
-                  <div class="row">
-                    <div class="col-xs-4 text-center" style="border-right: 1px solid #f4f4f4">
-                      <input type="text" class="knob" data-readonly="true" value="20" data-width="60" data-height="60" data-fgColor="#39CCCC">
-                      <div class="knob-label">Mail-Orders</div>
-                    </div><!-- ./col -->
-                    <div class="col-xs-4 text-center" style="border-right: 1px solid #f4f4f4">
-                      <input type="text" class="knob" data-readonly="true" value="50" data-width="60" data-height="60" data-fgColor="#39CCCC">
-                      <div class="knob-label">Online</div>
-                    </div><!-- ./col -->
-                    <div class="col-xs-4 text-center">
-                      <input type="text" class="knob" data-readonly="true" value="30" data-width="60" data-height="60" data-fgColor="#39CCCC">
-                      <div class="knob-label">In-Store</div>
-                    </div><!-- ./col -->
-                  </div><!-- /.row -->
-                </div><!-- /.box-footer -->
-              </div><!-- /.box -->
-
-
-
-            </section><!-- right col -->
-          </div><!-- /.row (main row) -->
 
         </section><!-- /.content -->
-        <!-- /.content -->
       </div><!-- /.content-wrapper -->
 
       <!-- Main Footer -->
@@ -584,51 +405,138 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Add the sidebar's background. This div must be placed
            immediately after the control sidebar -->
       <div class="control-sidebar-bg"></div>
+      
+      <div class="modal fade" tabindex="-1" id="confirmmodal" role="dialog">
+      	<div class="modal-dialog">
+      		<div class="modal-content">
+      			<div class="modal-header">
+      				<h4>Please confirm when you are ready to start</h4>
+      			</div>
+      			<div class="modal-body">
+      				<p>This will start the timer and keystroke monitoring on the challenge</p>
+      			</div>
+      			<div class="modal-footer">
+      				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      				<button type="button" class="btn btn-primary" onclick="start()" data-dismiss="modal" id="btn_modalconfirm">Begin</button>
+      			</div>
+      		</div>
+      	</div>
+      </div>
     </div><!-- ./wrapper -->
 
     <!-- REQUIRED JS SCRIPTS -->
 
     <!-- jQuery 2.1.4 -->
     <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
-    <!-- jQuery UI 1.11.4 -->
-    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-    <script>
-      $.widget.bridge('uibutton', $.ui.button);
-    </script>
     <!-- Bootstrap 3.3.5 -->
     <script src="bootstrap/js/bootstrap.min.js"></script>
-    <!-- Morris.js charts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-    <script src="plugins/morris/morris.min.js"></script>
-    <!-- Sparkline -->
-    <script src="plugins/sparkline/jquery.sparkline.min.js"></script>
-    <!-- jvectormap -->
-    <script src="plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
-    <script src="plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
-    <!-- jQuery Knob Chart -->
-    <script src="plugins/knob/jquery.knob.js"></script>
-    <!-- daterangepicker -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
-    <script src="plugins/daterangepicker/daterangepicker.js"></script>
-    <!-- datepicker -->
-    <script src="plugins/datepicker/bootstrap-datepicker.js"></script>
-    <!-- Bootstrap WYSIHTML5 -->
-    <script src="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
-    <!-- Slimscroll -->
-    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
-    <!-- FastClick -->
-    <script src="plugins/fastclick/fastclick.min.js"></script>
     <!-- AdminLTE App -->
     <script src="dist/js/app.min.js"></script>
-    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <script src="dist/js/pages/dashboard.js"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="dist/js/demo.js"></script>
 
     <!-- Optionally, you can add Slimscroll and FastClick plugins.
          Both of these plugins are recommended to enhance the
          user experience. Slimscroll is required when using the
          fixed layout. -->
+
+  	<script src="js/easytimer.min.js"></script>
+         
+    <script type="text/javascript">
+		$(window).load(function() {
+			$('#confirmmodal').modal('show');
+		})
+    </script>
+
+
+
+
+
+<script>
+
+	function setDVWALow() {
+		var origin = document.getElementById("dvwa").contentWindow.location.href;
+		$('body').append('<form action="./dvwa/security.php" method="post" target="mainframe" id="postToIframe"></form> ');
+		$('#postToIframe').append('<input type="hidden" name="security" value="low" />');
+		$('#postToIframe').submit().remove();
+		//document.getElementById("dvwa").contentWindow.location.href = origin;
+		var temp = false;
+		while(!temp) {
+			if (document.getElementById("dvwa").contentWindow.location.href != origin) {
+				document.getElementById("dvwa").contentWindow.location.href == origin;
+				temp = true;
+			}
+		}
+	}
+	//wincheck for success tag
+	var winCheck = function() {
+		// challengeCheck();
+		var findWinTag = document.getElementById('dvwa').contentWindow.document.getElementById('success');
+		if (findWinTag != null) {
+			console.log("Success!");
+			timer.stop();
+			challengeWon = true;
+			document.getElementById('dvwa').contentWindow.document.getElementById('success').style.color = "green";
+			document.getElementById('timer').style.color = "green";
+		} else {
+			console.log("No Success!");
+		}
+
+		challengeCheck();
+	}
+	//add charcount counter
+	var timer = new Timer();
+	var charCount = 0;
+	var clickCount = 0;
+	var challengeWon = false;
+	var challengeCheck = function() {
+
+		var isChallenge = document.getElementById('dvwa').contentWindow.document.getElementById('challenge');
+
+		if (isChallenge != null) {
+			if (challengeWon == true) {
+				timer.stop();
+			}
+
+		}
+	}
+	function start() {
+		startTimer();
+
+		//add event listen for keypress (keydown cos keypressed not valid on IE)
+		document.getElementById('dvwa').contentWindow.document.addEventListener("keydown", function() {
+			console.log("KEY PRESSED");
+			charCount++;
+			console.log(charCount);
+			document.getElementById("charCount").innerHTML = "CharCount: " + charCount;
+		});
+
+		//event for mouseclick
+		document.getElementById('dvwa').contentWindow.document.addEventListener("click", function() {
+			console.log("MOUSE CLICK");
+			clickCount++;
+			console.log(clickCount);
+			document.getElementById("clickCount").innerHTML = "ClickCount: " + clickCount;
+
+		});
+
+	}
+
+	//start timer on iframe instance
+	var startTimer = function() {
+
+		timer.start();
+		timer.addEventListener('secondsUpdated', function(e) {
+			$('#timer').html(timer.getTimeValues().toString());
+		});
+	}
+	//get iframe by id "dvwa"
+	var iframeDVWA = document.getElementById("dvwa");
+	//if test exists then start timer
+	if (iframeDVWA) {
+		challengeCheck();
+	}
+
+</script>
+
+
   </body>
 </html>
