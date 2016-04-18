@@ -314,7 +314,7 @@ while (!feof($config)) {
                     <!-- START IFRAME-->
 
                     <div class="embed-responsive embed-responsive-4by3">
-                      <iframe id="dvwa" name="mainframe" class="embed-responsive-item" src=<?php echo "'/FAWSAP/" . $challenges[0] . "'"; ?> onload="winCheck();"></iframe>
+                      <iframe id="dvwa" name="mainframe" class="embed-responsive-item" src=<?php echo $challenges[0] . "'"; ?> onload="winCheck();"></iframe>
                     </div>
                     <!--END IFRAME-->
                   </div>
