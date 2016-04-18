@@ -454,17 +454,13 @@ while (!feof($config)) {
 
 	function setDVWALow() {
 		var origin = document.getElementById("dvwa").contentWindow.location.href;
-		$('body').append('<form action="./dvwa/security.php" method="post" target="mainframe" id="postToIframe"></form> ');
+		$('body').append('<form action="./dvwa/index.php" method="post" target="mainframe" id="postToIframe"></form> ');
 		$('#postToIframe').append('<input type="hidden" name="security" value="low" />');
 		$('#postToIframe').submit().remove();
+		var iframe = document.getElementById("dvwa");
+		//iframe.src = 'data:text/html;charset=utf-8,' + encodeURI("<html><head><meta http-equiv='refresh' content='0; " + origin + "' /></head></html>");
+		document.getElementById("dvwa").contentWindow.location = origin;
 		//document.getElementById("dvwa").contentWindow.location.href = origin;
-		var temp = false;
-		while(!temp) {
-			if (document.getElementById("dvwa").contentWindow.location.href != origin) {
-				document.getElementById("dvwa").contentWindow.location.href == origin;
-				temp = true;
-			}
-		}
 	}
 	//wincheck for success tag
 	var winCheck = function() {
