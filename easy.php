@@ -5,11 +5,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
 -->
 <?php
 include ('php/session.php');
-$config = fopen("config/easy_list.cfg", "r");
-$challenges = array();
-while (!feof($config)) {
-	$challenges[] = fgets($config);
+$chall_sql = mysqli_query($db, "SELECT * FROM challenges WHERE difficulty = 1;");
+$challengeUrls = array();
+$challengeIDs = array();
+if (mysqli_num_rows($chall_sql) > 0) {
+	while ($row = mysqli_fetch_assoc($chall_sql)) {
+		$challengeUrls[] = $row["url"];
+		$challengeIDs[] = $row["id"];
+	}
 }
+$number = 0;
+if (isset($_GET['n'])) {
+	if ($_GET['n'] < mysqli_num_rows($chall_sql)) {
+		$number = $_GET['n'];
+	}
+}
+echo "<div id='challengeID' style='display:none;'>".$challengeIDs[$number]."</div>";
  ?>
 <html>
   <head>
@@ -189,7 +200,7 @@ while (!feof($config)) {
                   <!-- The user image in the menu -->
                   <li class="user-header">
                     <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-                    <p>
+                    <p id="username">
                       <?php echo $name; ?>
                     </p>
                   </li>
@@ -314,7 +325,7 @@ while (!feof($config)) {
                     <!-- START IFRAME-->
 
                     <div class="embed-responsive embed-responsive-4by3">
-                      <iframe id="dvwa" name="mainframe" class="embed-responsive-item" src=<?php echo $challenges[0]; ?> onload="winCheck();"></iframe>
+                      <iframe id="mainframe" name="mainframe" class="embed-responsive-item" src=<?php echo "/FAWSAP" . $challengeUrls[$number]; ?> onload="winCheck();"></iframe>
                     </div>
                     <!--END IFRAME-->
                   </div>
@@ -422,6 +433,23 @@ while (!feof($config)) {
       		</div>
       	</div>
       </div>
+      
+      <div class="modal fade" tabindex="-1" id="winmodal" role="dialog">
+      	<div class="modal-dialog">
+      		<div class="modal-content">
+      			<div class="modal-header">
+      				<h4>Challenge Complete</h4>
+      			</div>
+      			<div class="modal-body">
+      				<p>Move on to next challenge?</p>
+      			</div>
+      			<div class="modal-footer">
+      				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      				<button type="button" class="btn btn-primary" onclick="save()" data-dismiss="modal" id="btn_modalconfirm">Next</button>
+      			</div>
+      		</div>
+      	</div>
+      </div>
     </div><!-- ./wrapper -->
 
     <!-- REQUIRED JS SCRIPTS -->
@@ -451,26 +479,26 @@ while (!feof($config)) {
 
 
 <script>
-
 	function setDVWALow() {
-		var origin = document.getElementById("dvwa").contentWindow.location.href;
+		var origin = document.getElementById("mainframe").contentWindow.location.href;
 		$('body').append('<form action="./dvwa/index.php" method="post" target="mainframe" id="postToIframe"></form> ');
 		$('#postToIframe').append('<input type="hidden" name="security" value="low" />');
 		$('#postToIframe').submit().remove();
-		var iframe = document.getElementById("dvwa");
+		var iframe = document.getElementById("mainframe");
 		//iframe.src = 'data:text/html;charset=utf-8,' + encodeURI("<html><head><meta http-equiv='refresh' content='0; " + origin + "' /></head></html>");
-		document.getElementById("dvwa").contentWindow.location = origin;
+		document.getElementById("mainframe").contentWindow.location = origin;
 		//document.getElementById("dvwa").contentWindow.location.href = origin;
 	}
+
 	//wincheck for success tag
 	var winCheck = function() {
 		// challengeCheck();
-		var findWinTag = document.getElementById('dvwa').contentWindow.document.getElementById('success');
+		var findWinTag = document.getElementById('mainframe').contentWindow.document.getElementById('success');
 		if (findWinTag != null) {
 			console.log("Success!");
 			timer.stop();
 			challengeWon = true;
-			document.getElementById('dvwa').contentWindow.document.getElementById('success').style.color = "green";
+			document.getElementById('mainframe').contentWindow.document.getElementById('success').style.color = "green";
 			document.getElementById('timer').style.color = "green";
 		} else {
 			console.log("No Success!");
@@ -480,25 +508,63 @@ while (!feof($config)) {
 	}
 	//add charcount counter
 	var timer = new Timer();
+	var timeTaken = 0;
 	var charCount = 0;
 	var clickCount = 0;
 	var challengeWon = false;
 	var challengeCheck = function() {
 
-		var isChallenge = document.getElementById('dvwa').contentWindow.document.getElementById('challenge');
+		var isChallenge = document.getElementById('mainframe').contentWindow.document.getElementById('challenge');
 
 		if (isChallenge != null) {
 			if (challengeWon == true) {
-				timer.stop();
+				timeTaken = timer.getTotalTimeValues().seconds;
+				timer.stop();				
+				$('#winmodal').modal('show');
 			}
 
 		}
 	}
+	var getUrlParameter = function getUrlParameter(sParam) {
+		var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+		    sURLVariables = sPageURL.split('&'),
+		    sParameterName,
+		    i;
+
+		for ( i = 0; i < sURLVariables.length; i++) {
+			sParameterName = sURLVariables[i].split('=');
+
+			if (sParameterName[0] === sParam) {
+				return sParameterName[1] === undefined ? true : sParameterName[1];
+			}
+		}
+	};
+
+	var save = function() {
+		$.post("php/submitchallenge.php",
+		{
+			id: $('#challengeID').text(),
+			username: $.trim($('#username').text()),
+			time: timeTaken,
+			clicks: clickCount,
+			chars: charCount
+		},
+		function(data, status) {
+			alert(data + getUrlParameter('n'));
+			if (getUrlParameter('n') == undefined) {
+				window.location="./easy.php?n=0";
+			} else {
+				window.location="./easy.php?n=" + (parseInt(getUrlParameter('n'), 10) + 1);
+			}
+			
+		})
+	}
+
 	function start() {
 		startTimer();
 
 		//add event listen for keypress (keydown cos keypressed not valid on IE)
-		document.getElementById('dvwa').contentWindow.document.addEventListener("keydown", function() {
+		document.getElementById('mainframe').contentWindow.document.addEventListener("keydown", function() {
 			console.log("KEY PRESSED");
 			charCount++;
 			console.log(charCount);
@@ -506,7 +572,7 @@ while (!feof($config)) {
 		});
 
 		//event for mouseclick
-		document.getElementById('dvwa').contentWindow.document.addEventListener("click", function() {
+		document.getElementById('mainframe').contentWindow.document.addEventListener("click", function() {
 			console.log("MOUSE CLICK");
 			clickCount++;
 			console.log(clickCount);
@@ -524,8 +590,8 @@ while (!feof($config)) {
 			$('#timer').html(timer.getTimeValues().toString());
 		});
 	}
-	//get iframe by id "dvwa"
-	var iframeDVWA = document.getElementById("dvwa");
+	//get iframe by id "mainframe"
+	var iframeDVWA = document.getElementById("mainframe");
 	//if test exists then start timer
 	if (iframeDVWA) {
 		challengeCheck();
