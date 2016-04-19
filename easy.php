@@ -325,7 +325,7 @@ echo "<div id='challengeID' style='display:none;'>".$challengeIDs[$number]."</di
                     <!-- START IFRAME-->
 
                     <div class="embed-responsive embed-responsive-4by3">
-                      <iframe id="mainframe" name="mainframe" class="embed-responsive-item" src=<?php echo "/FAWSAP" . $challengeUrls[$number]; ?> onload="winCheck();"></iframe>
+                      <iframe id="mainframe" name="mainframe" class="embed-responsive-item" src=<?php echo $challengeUrls[$number]; ?> onload="winCheck();"></iframe>
                     </div>
                     <!--END IFRAME-->
                   </div>
