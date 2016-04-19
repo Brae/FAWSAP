@@ -20,7 +20,7 @@ if (isset($_GET['n'])) {
 		$number = $_GET['n'];
 	}
 }
-echo "<div id='challengeID' style='display:none;'>".$challengeIDs[$number]."</div>";
+echo "<div id='challengeID' style='display:none;'>" . $challengeIDs[$number] . "</div>";
  ?>
 <html>
   <head>
@@ -49,8 +49,6 @@ echo "<div id='challengeID' style='display:none;'>".$challengeIDs[$number]."</di
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-    
-    
 
 
   </head>
@@ -270,15 +268,14 @@ echo "<div id='challengeID' style='display:none;'>".$challengeIDs[$number]."</di
             <li><a href="./index.php"><i class="fa fa-link"></i> <span>Home</span></a></li>
             <li class="header">APPS</li>
             <!-- Optionally, you can add icons to the links -->
-<li class="active"><a href="./bricks.php"><i class="fa fa-link"></i> <span>Bricks</span></a></li>
+			<li class="active"><a href="./bricks.php"><i class="fa fa-link"></i> <span>Bricks</span></a></li>
             <li><a href="./dvwa.php"><i class="fa fa-link"></i> <span>DVWA</span></a></li>
             <li><a href="./xvwa.php"><i class="fa fa-link"></i> <span>XVWA</span></a></li>
             <li><a href="./leaderboard.php"><i class="fa fa-link"></i> <span>LeaderBoard</span></a></li>
-            <li class="header">Statistics</li>
-            <li style="color:white;">Timer:</li>
-          <h3>  <li id="timer" style="color:red;">00:00:00</li> </h3>
-          <li id="charCount" style="color:white;">CharCount:</li>
-          <li id="clickCount" style="color:white;">ClickCount:</li>
+            <li class="header">TIMER</li>
+          	<li ><a class="avoid-clicks" href="#"><i class="fa fa-clock-o"></i><span style="color:red;" id="timer">00:00:00</span></a></li>
+          	<li><a href="#"><i class="fa fa-keyboard-o"></i><span  style="color:white;" id="charCount">CharCount:</span></a></li>
+          	<li><a href="#"><i class="fa fa-mouse-pointer"></i><span style="color:white;" id="clickCount">ClickCount:</span></a></li>
 
           </ul><!-- /.sidebar-menu -->
         </section>
@@ -325,7 +322,7 @@ echo "<div id='challengeID' style='display:none;'>".$challengeIDs[$number]."</di
                     <!-- START IFRAME-->
 
                     <div class="embed-responsive embed-responsive-4by3">
-                      <iframe id="mainframe" name="mainframe" class="embed-responsive-item" src="<?php echo $challengeUrls[$number]; ?>" onload="winCheck();"></iframe>
+                      <iframe id="mainframe" name="mainframe" class="embed-responsive-item" src="<?php echo "/FAWSAP".$challengeUrls[$number]; ?>" onload="winCheck();"></iframe>
                     </div>
                     <!--END IFRAME-->
                   </div>
@@ -492,19 +489,18 @@ echo "<div id='challengeID' style='display:none;'>".$challengeIDs[$number]."</di
 
 	//wincheck for success tag
 	var winCheck = function() {
-		// challengeCheck();
 		var findWinTag = document.getElementById('mainframe').contentWindow.document.getElementById('success');
 		if (findWinTag != null) {
 			console.log("Success!");
-			timer.stop();
+			timeTaken = timer.getTotalTimeValues().seconds;
+			timer.stop();			
+			$('#winmodal').modal('show');
 			challengeWon = true;
 			document.getElementById('mainframe').contentWindow.document.getElementById('success').style.color = "green";
 			document.getElementById('timer').style.color = "green";
 		} else {
 			console.log("No Success!");
 		}
-
-		challengeCheck();
 	}
 	//add charcount counter
 	var timer = new Timer();
@@ -519,8 +515,7 @@ echo "<div id='challengeID' style='display:none;'>".$challengeIDs[$number]."</di
 		if (isChallenge != null) {
 			if (challengeWon == true) {
 				timeTaken = timer.getTotalTimeValues().seconds;
-				timer.stop();				
-				$('#winmodal').modal('show');
+				timer.stop();
 			}
 
 		}
@@ -541,25 +536,23 @@ echo "<div id='challengeID' style='display:none;'>".$challengeIDs[$number]."</di
 	};
 
 	var save = function() {
-		$.post("php/submitchallenge.php",
-		{
-			id: $('#challengeID').text(),
-			username: $.trim($('#username').text()),
-			time: timeTaken,
-			clicks: clickCount,
-			chars: charCount
-		},
-		function(data, status) {
+		//alert("Time Taken: " + timeTaken + "\nValue from timer: " + timer.getTotalTimeValues().seconds);
+		$.post("php/submitchallenge.php", {
+			id : $('#challengeID').text(),
+			username : $.trim($('#username').text()),
+			time : timer.getTotalTimeValues().seconds,
+			clicks : clickCount,
+			chars : charCount
+		}, function(data, status) {
 			alert(data + getUrlParameter('n'));
 			if (getUrlParameter('n') == undefined) {
-				window.location="./easy.php?n=0";
+				window.location = "./easy.php?n=0";
 			} else {
-				window.location="./easy.php?n=" + (parseInt(getUrlParameter('n'), 10) + 1);
+				window.location = "./easy.php?n=" + (parseInt(getUrlParameter('n'), 10) + 1);
 			}
-			
+
 		})
 	}
-
 	function start() {
 		startTimer();
 
