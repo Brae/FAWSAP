@@ -8,9 +8,9 @@
 
 #### Setting up
 1. Download install/install.sh into the root directory for content on the webserver.
-..* [install.sh link](https://github.com/6footgeek/FAWSAP/install/install.sh)
+	* [install.sh link](https://github.com/6footGeek/FAWSAP/blob/master/install/install.sh)
 2. Run the script
-..* `sudo sh ./install.sh`
+	* `sudo sh ./install.sh`
 3. Enter MySQL root account password when the prompt "Enter Password: " is shown
 
 
