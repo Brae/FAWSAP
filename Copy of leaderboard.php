@@ -4,23 +4,7 @@ This is a starter template page. Use this page to start your new project from
 scratch. This page gets rid of all links and provides the needed markup only.
 -->
 <?php
-include ('php/session.php');
-$chall_sql = mysqli_query($db, "SELECT * FROM challenges WHERE difficulty = 1;");
-$challengeUrls = array();
-$challengeIDs = array();
-if (mysqli_num_rows($chall_sql) > 0) {
-	while ($row = mysqli_fetch_assoc($chall_sql)) {
-		$challengeUrls[] = $row["url"];
-		$challengeIDs[] = $row["id"];
-	}
-}
-$number = 0;
-if (isset($_GET['n'])) {
-	if ($_GET['n'] < mysqli_num_rows($chall_sql)) {
-		$number = $_GET['n'];
-	}
-}
-echo "<div id='challengeID' style='display:none;'>" . $challengeIDs[$number] . "</div>";
+	include ('php/session.php');
  ?>
 <html>
   <head>
@@ -198,7 +182,7 @@ echo "<div id='challengeID' style='display:none;'>" . $challengeIDs[$number] . "
                   <!-- The user image in the menu -->
                   <li class="user-header">
                     <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-                    <p id="username">
+                    <p>
                       <?php echo $name; ?>
                     </p>
                   </li>
@@ -268,11 +252,16 @@ echo "<div id='challengeID' style='display:none;'>" . $challengeIDs[$number] . "
             <li><a href="./index.php"><i class="fa fa-link"></i> <span>Home</span></a></li>
             <li class="header">APPS</li>
             <!-- Optionally, you can add icons to the links -->
-			<li class="active"><a href="./bricks.php"><i class="fa fa-link"></i> <span>Bricks</span></a></li>
+<li class="active"><a href="./bricks.php"><i class="fa fa-link"></i> <span>Bricks</span></a></li>
             <li><a href="./dvwa.php"><i class="fa fa-link"></i> <span>DVWA</span></a></li>
             <li><a href="./xvwa.php"><i class="fa fa-link"></i> <span>XVWA</span></a></li>
-            <li><a href="./leaderboard.php"><i class="fa fa-bar-chart"></i> <span>LeaderBoard</span></a></li>
-            
+            <li><a href="./leaderboard.php"><i class="fa fa-link"></i> <span>LeaderBoard</span></a></li>
+            <li class="header">Statistics</li>
+            <li style="color:white;">Timer:</li>
+          <h3>  <li id="timer" style="color:red;">00:00:00</li> </h3>
+          <li id="charCount" style="color:white;">CharCount:</li>
+          <li id="clickCount" style="color:white;">ClickCount:</li>
+
           </ul><!-- /.sidebar-menu -->
         </section>
         <!-- /.sidebar -->
@@ -283,8 +272,8 @@ echo "<div id='challengeID' style='display:none;'>" . $challengeIDs[$number] . "
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            DVWA
-            <small>Damn Vulnerable Web App</small>
+            FAWSAP
+            <small>LeaderBoard</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
@@ -307,7 +296,7 @@ echo "<div id='challengeID' style='display:none;'>" . $challengeIDs[$number] . "
                 <!-- PRODUCT LIST -->
                 <div class="box box-primary">
                   <div class="box-header with-border">
-                    <h3 class="box-title">DVWA - Damn Vulnerable Web App</h3>
+                    <h3 class="box-title">FAWSAP - LeaderBoard</h3>
                     <div class="box-tools pull-right">
                       <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                       <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -318,7 +307,8 @@ echo "<div id='challengeID' style='display:none;'>" . $challengeIDs[$number] . "
                     <!-- START IFRAME-->
 
                     <div class="embed-responsive embed-responsive-4by3">
-                      <?php
+                  <!-- start leaderboard -->
+                  		<?php
 							$res = mysqli_query($db, "SELECT COUNT(DISTINCT challengeid) AS total FROM scores");
 							$row = mysqli_fetch_assoc($res);
 							$numChall = $row["total"];
@@ -353,20 +343,13 @@ echo "<div id='challengeID' style='display:none;'>" . $challengeIDs[$number] . "
 									}
 									$ii++;
 								}
-								echo "</tbody>";
-								echo "</table>";
-								echo "</div>";
 								echo "</div>";
 							}
-						?>  
+                  		?>       
+                  
                     </div>
                     <!--END IFRAME-->
                   </div>
-                  <!-- /.box-body -->
-                  <div class="box-footer text-center">
-                    <a href="javascript::;" class="uppercase">END FOOTER</a>
-                  </div>
-                  <!-- /.box-footer -->
                 </div>
                 <!-- /.box -->
               </div>
@@ -449,7 +432,6 @@ echo "<div id='challengeID' style='display:none;'>" . $challengeIDs[$number] . "
       <!-- Add the sidebar's background. This div must be placed
            immediately after the control sidebar -->
       <div class="control-sidebar-bg"></div>
-      
     </div><!-- ./wrapper -->
 
     <!-- REQUIRED JS SCRIPTS -->
@@ -466,6 +448,71 @@ echo "<div id='challengeID' style='display:none;'>" . $challengeIDs[$number] . "
          user experience. Slimscroll is required when using the
          fixed layout. -->
 
-  	<script src="js/easytimer.min.js"></script>
+         <script src="js/easytimer.min.js"></script>
+
+
+
+
+
+<script>
+	//add charcount counter
+	var charCount = 0;
+	var clickCount = 0;
+	var timer = new Timer();
+	// var charCountfunc = function() {
+	// 		//document.getElementById("charCount").style.backgroundColor = "red";
+
+	// 		console.log("KEY PRESSED");
+	//     charCount++;
+	//     console.log(charCount);
+	//     document.getElementById("charCount").innerHTML = "CharCount: " + charCount;
+	//     return charCount;
+	// 	}
+	//wincheck for success tag
+	var winCheck = function() {
+		var findWinTag = document.getElementById('dvwa').contentWindow.document.getElementById('success');
+		if (findWinTag != null) {
+			console.log("Success!");
+			timer.stop();
+			document.getElementById('dvwa').contentWindow.document.getElementById('success').style.color = "green";
+			document.getElementById('timer').style.color = "green";
+		} else {
+			console.log("No Success!");
+		}
+
+		//add event listen for keypress (keydown cos keypressed not valid on IE)
+		document.getElementById('dvwa').contentWindow.document.addEventListener("keydown", function() {
+			console.log("KEY PRESSED");
+			charCount++;
+			console.log(charCount);
+			document.getElementById("charCount").innerHTML = "CharCount: " + charCount;
+		});
+
+		//event for mouseclick
+		document.getElementById('dvwa').contentWindow.document.addEventListener("click", function() {
+			console.log("MOUSE CLICK");
+			clickCount++;
+			console.log(clickCount);
+			document.getElementById("clickCount").innerHTML = "ClickCount: " + clickCount;
+
+		});
+	}
+	//start timer on iframe instance
+	var startTimer = function() {
+		timer.start();
+		timer.addEventListener('secondsUpdated', function(e) {
+			$('#timer').html(timer.getTimeValues().toString());
+		});
+	}
+	//get iframe by id "dvwa"
+	var iframeDVWA = document.getElementById("dvwa");
+	//if test exists then start timer
+	if (iframeDVWA) {
+		startTimer();
+	}
+
+</script>
+
+
   </body>
 </html>
