@@ -293,8 +293,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <!-- small box -->
               <div class="small-box bg-aqua">
                 <div class="inner">
-                  <h3>150</h3>
-                  <p>Challenges</p>
+                	<?php 
+                		$res = mysqli_query($db, "SELECT * FROM challenges;");
+						$numChall = mysqli_num_rows($res);
+						echo "<h3>".$numChall."</h3><p>Challenges</p>"                	
+                	?>
                 </div>
                 <div class="icon">
                   <i class="ion ion-bag"></i>
@@ -306,7 +309,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <!-- small box -->
               <div class="small-box bg-green">
                 <div class="inner">
-                  <h3>53<sup style="font-size: 20px">%</sup></h3>
+                	<?php 
+                		$res = mysqli_query($db, "SELECT COUNT(DISTINCT challengeid) AS total FROM scores WHERE username='".$name."';");
+						$data = mysqli_fetch_assoc($res);
+						if ($data["total"] != 0) {
+							$perc = ($data["total"]/$numChall)*100;
+							echo "<h3>".$perc."<sup style='font-size:20px'>%</sup></h3>";
+						} else {
+							echo "<h3>0<sup style='font-size:20px'>%</sup></h3>";
+						}
+						
+                	?>
                   <p>Challenges Completed</p>
                 </div>
                 <div class="icon">
