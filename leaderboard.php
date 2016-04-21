@@ -320,11 +320,15 @@ echo "<div id='challengeID' style='display:none;'>" . $challengeIDs[$number] . "
 
                     <div class="embed-responsive embed-responsive-4by3">
                       <?php
-							$res = mysqli_query($db, "SELECT COUNT(DISTINCT challengeid) AS total FROM scores");
-							$row = mysqli_fetch_assoc($res);
-							$numChall = $row["total"];
-							for ($i = 1; $i <= $numChall; $i++) {
-								$res = mysqli_query($db, "SELECT * FROM scores WHERE challengeid=" . $i . " ORDER BY time;");
+							$res = mysqli_query($db, "SELECT DISTINCT challengeid FROM scores");
+							$numChall = mysqli_num_rows($res);
+							$idList = array();
+							while($row = mysqli_fetch_assoc($res)) {
+								$idList[] = $row["challengeid"];
+							}
+							
+							for ($i = 0; $i < $numChall; $i++) {
+								$res = mysqli_query($db, "SELECT * FROM scores WHERE challengeid=" . $idList[$i] . " ORDER BY time;");
 								echo "<div class='box'>";
 								echo "<div class='box-header'>";
 								echo "<h3 class='box-title'>Challenge " . $i . "</h3>";

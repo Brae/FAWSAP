@@ -318,7 +318,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <!-- START IFRAME-->
 
                     <div class="embed-responsive embed-responsive-4by3">
-                      <iframe id="dvwa" class="embed-responsive-item" src="./dvwa/" onload="winCheck();"></iframe>
+                      <iframe id="dvwa" class="embed-responsive-item" src="./dvwa/"></iframe>
                     </div>
                     <!--END IFRAME-->
                   </div>
