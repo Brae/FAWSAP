@@ -264,7 +264,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 			<li><a href="./bricks.php"><i class="fa fa-link"></i> <span>Bricks</span></a></li>
             <li class="active"><a href="./dvwa.php"><i class="fa fa-link"></i> <span>DVWA</span></a></li>
             <li><a href="./xvwa.php"><i class="fa fa-link"></i> <span>XVWA</span></a></li>
-            <li class="active"><a href="./leaderboard.php"><i class="fa fa-bar-chart"></i> <span>LeaderBoard</span></a></li>
+            <li><a href="./leaderboard.php"><i class="fa fa-bar-chart"></i> <span>LeaderBoard</span></a></li>
             <li class="header">CHALLENGES</li>
             <li><a href="./easy.php?n=0"><i class="fa fa-link"></i> <span>Easy</span></a></li>
             <li class="header">TIMER</li>
@@ -486,15 +486,12 @@ function challengeCheck() {
 function winCheck() {
     var findWinTag = document.getElementById('dvwa').contentWindow.document.getElementById('success');
     if (findWinTag != null) {
-        console.log("Success!");
         timeTaken = timer.getTotalTimeValues().seconds;
         timer.stop();
         $('#winmodal').modal('show');
         challengeWon = true;
         document.getElementById('dvwa').contentWindow.document.getElementById('success').style.color = "green";
         document.getElementById('timer').style.color = "green";
-    } else {
-        console.log("No Success!");
     }
 }
 
@@ -528,19 +525,15 @@ function save() {
 }
 
 function getID(path) {
-    console.log("Path received at getID: " + path);
     var div = document.getElementById("challengeID").getAttribute("data");
     var data = JSON.parse(div);
 
     var id = 0;
     for (i = 0; i < data.length; i++) {
-    	
-        console.log(i + ":url = " + data[i].url + "\tPath: " + path);
         if (data[i].url == path) {
             id = data[i].id;
         }
     }
-    console.log("ID: " + id);
     return id;
 }
 
@@ -578,7 +571,6 @@ function startTimer() {
 //get iframe by id "mainframe"
 function main() {
   setInterval(function() {
-  	console.log("Tick");  	
   	var iframeDVWA = document.getElementById("dvwa");
    	//if test exists then start timer
   	if (iframeDVWA) {
