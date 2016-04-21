@@ -331,7 +331,7 @@ echo "<div id='challengeID' style='display:none;'>" . $challengeIDs[$number] . "
 								$res = mysqli_query($db, "SELECT * FROM scores WHERE challengeid=" . $idList[$i] . " ORDER BY time;");
 								echo "<div class='box'>";
 								echo "<div class='box-header'>";
-								echo "<h3 class='box-title'>Challenge " . $i . "</h3>";
+								echo "<h3 class='box-title'>Challenge ID: " . $idList[$i] . "</h3>";
 								echo "</div>";
 
 								echo "<div class='box-body table-responsive no-padding'>";
