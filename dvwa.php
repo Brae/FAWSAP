@@ -3,7 +3,18 @@
 This is a starter template page. Use this page to start your new project from
 scratch. This page gets rid of all links and provides the needed markup only.
 -->
-<?php include('php/session.php'); ?>
+<?php 
+	include('php/session.php');
+	$result = mysqli_query($db, "SELECT * FROM challenges WHERE url LIKE '/dvwa/%';");
+	$challenges = array();
+	while($row = mysqli_fetch_assoc($result)) {
+		$challenges[] = $row;
+	}
+	$encoded = json_encode($challenges);
+	$encoded = htmlspecialchars($encoded);
+
+	echo "<div id='challengeID' style='display:none;' data='".$encoded."'></div>";
+?>
 <html>
   <head>
     <meta charset="utf-8">
@@ -54,7 +65,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   |               | sidebar-mini                            |
   |---------------------------------------------------------|
   -->
-  <body class="hold-transition skin-blue sidebar-mini">
+  <body class="hold-transition skin-blue sidebar-mini" onload="main()">
     <div class="wrapper">
 
       <!-- Main Header -->
@@ -180,7 +191,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <!-- The user image in the menu -->
                   <li class="user-header">
                     <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-                    <p>
+                    <p id="username">
                       <?php echo $name; ?>
                     </p>
                   </li>
@@ -398,6 +409,39 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Add the sidebar's background. This div must be placed
            immediately after the control sidebar -->
       <div class="control-sidebar-bg"></div>
+      <div class="modal fade" tabindex="-1" id="confirmmodal" role="dialog">
+      	<div class="modal-dialog">
+      		<div class="modal-content">
+      			<div class="modal-header">
+      				<h4>Please confirm when you are ready to start</h4>
+      			</div>
+      			<div class="modal-body">
+      				<p>This will start the timer and keystroke monitoring on the challenge</p>
+      			</div>
+      			<div class="modal-footer">
+      				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      				<button type="button" class="btn btn-primary" onclick="start()" data-dismiss="modal" id="btn_modalconfirm">Begin</button>
+      			</div>
+      		</div>
+      	</div>
+      </div>
+      
+      <div class="modal fade" tabindex="-1" id="winmodal" role="dialog">
+      	<div class="modal-dialog">
+      		<div class="modal-content">
+      			<div class="modal-header">
+      				<h4>Challenge Complete</h4>
+      			</div>
+      			<div class="modal-body">
+      				<p>Save results?</p>
+      			</div>
+      			<div class="modal-footer">
+      				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      				<button type="button" class="btn btn-primary" onclick="save()" data-dismiss="modal" id="btn_modalconfirm">Save</button>
+      			</div>
+      		</div>
+      	</div>
+      </div>
     </div><!-- ./wrapper -->
 
     <!-- REQUIRED JS SCRIPTS -->
@@ -417,82 +461,132 @@ scratch. This page gets rid of all links and provides the needed markup only.
          <script src="js/easytimer.min.js"></script>
 
 
-
-
-
 <script>
-  
-
-//add charcount counter
-var timer = new Timer();
+	var timer = new Timer();
+var timeTaken = 0;
 var charCount = 0;
 var clickCount = 0;
 var challengeWon = false;
-var challengeCheck = function() {
+var isChallenge = null;
+var challengeInProgress = false;
+var path = "";
 
-  var isChallenge = document.getElementById('dvwa').contentWindow.document.getElementById('challenge');
-  
-  if(isChallenge != null && challengeWon != true) {
-    //start timing
-    startTimer();
-    
-      //add event listen for keypress (keydown cos keypressed not valid on IE)
-	document.getElementById('dvwa').contentWindow.document.addEventListener("keydown", function() {
-    console.log("KEY PRESSED");
-    charCount++;
-    console.log(charCount);
-    document.getElementById("charCount").innerHTML = "CharCount: " + charCount;
-  });
-  
-  
-  //event for mouseclick
-  document.getElementById('dvwa').contentWindow.document.addEventListener("click", function() {
-    console.log("MOUSE CLICK");
-    clickCount++;
-    console.log(clickCount);
-    document.getElementById("clickCount").innerHTML = "ClickCount: " + clickCount;
-    	
-  });
-  } else {
-
-    timer.stop();
-  }
-  
-
+function challengeCheck() {
+    isChallenge = document.getElementById('dvwa').contentWindow.document.getElementById('challenge');
+    if (isChallenge != null) {
+    	if (!challengeInProgress) {
+    		challengeInProgress = true;
+    		$('#confirmmodal').modal('show');
+    	}        
+        winCheck();
+    }
 }
 
-	//wincheck for success tag
-var winCheck = function() {
-  // challengeCheck();
-	var findWinTag = document.getElementById('dvwa').contentWindow.document.getElementById('success');
-	if (findWinTag != null) {
-		console.log("Success!");
-		timer.stop();
+//wincheck for success tag
+function winCheck() {
+    var findWinTag = document.getElementById('dvwa').contentWindow.document.getElementById('success');
+    if (findWinTag != null) {
+        console.log("Success!");
+        timeTaken = timer.getTotalTimeValues().seconds;
+        timer.stop();
+        $('#winmodal').modal('show');
+        challengeWon = true;
+        document.getElementById('dvwa').contentWindow.document.getElementById('success').style.color = "green";
+        document.getElementById('timer').style.color = "green";
+    } else {
+        console.log("No Success!");
+    }
+}
+
+//Temporary debugging function
+function win() {
+    timeTaken = timer.getTotalTimeValues().seconds;
+    timer.stop();
+    $('#winmodal').modal('show');
     challengeWon = true;
-		document.getElementById('dvwa').contentWindow.document.getElementById('success').style.color = "green";
-		document.getElementById('timer').style.color = "green";
-	} else {
-		console.log("No Success!");
-	}
-  
-  challengeCheck();
+    document.getElementById('dvwa').contentWindow.document.getElementById('success').style.color = "green";
+    document.getElementById('timer').style.color = "green";
+}
+
+function save() {
+    //alert("Time Taken: " + timeTaken + "\nValue from timer: " + timer.getTotalTimeValues().seconds);#
+    var challID = getID(document.getElementById("dvwa").contentWindow.location.pathname);
+
+    $.post("php/submitchallenge.php", {
+        id: challID,
+        username: $.trim($('#username').text()),
+        time: timer.getTotalTimeValues().seconds,
+        clicks: clickCount,
+        chars: charCount
+    }, function(data, status) {
+    	challengeInProgress = false;
+    	window.location = "./dvwa.php";
+        
+
+    })
+}
+
+function getID(path) {
+    console.log(path);
+    var div = document.getElementById("challengeID").getAttribute("data");
+    var data = JSON.parse(div);
+
+    var id = 0;
+    for (i = 0; i < data.length; i++) {
+        if (data[i].url == path) {
+            id = data[i].id;
+        }
+    }
+    return id;
+}
+
+
+function start() {
+    startTimer();
+
+    //add event listen for keypress (keydown cos keypressed not valid on IE)
+    document.getElementById('dvwa').contentWindow.document.addEventListener("keydown", function() {
+        console.log("KEY PRESSED");
+        charCount++;
+        console.log(charCount);
+        document.getElementById("charCount").innerHTML = "CharCount: " + charCount;
+    });
+
+    //event for mouseclick
+    document.getElementById('dvwa').contentWindow.document.addEventListener("click", function() {
+        console.log("MOUSE CLICK");
+        clickCount++;
+        console.log(clickCount);
+        document.getElementById("clickCount").innerHTML = "ClickCount: " + clickCount;
+
+    });
+
 }
 
 //start timer on iframe instance
-var startTimer = function() {
- 
-		timer.start();
-		timer.addEventListener('secondsUpdated', function(e) {
-			$('#timer').html(timer.getTimeValues().toString());
-		});
-	}
-	//get iframe by id "dvwa"
-var iframeDVWA = document.getElementById("dvwa");
-//if test exists then start timer
-if (iframeDVWA) {
-	challengeCheck();
+function startTimer() {
+        timer.start();
+        timer.addEventListener('secondsUpdated', function(e) {
+            $('#timer').html(timer.getTimeValues().toString());
+        });
 }
 
+//get iframe by id "mainframe"
+function main() {
+  setInterval(function() {
+  	console.log("Tick");  	
+  	var iframeDVWA = document.getElementById("dvwa");
+   	//if test exists then start timer
+  	if (iframeDVWA) {
+  		if (path != document.getElementById("dvwa").contentWindow.location.pathname) {
+  			path = document.getElementById("dvwa").contentWindow.location.pathname;
+        	challengeCheck();
+       	}
+    }  
+  }, 1000);
+}
+
+	
 
 </script>
 
