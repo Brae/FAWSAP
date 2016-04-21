@@ -504,6 +504,15 @@ echo "<div id='challengeID' style='display:none;'>" . $challengeIDs[$number] . "
 			console.log("No Success!");
 		}
 	}
+	
+	function win() {
+		timeTaken = timer.getTotalTimeValues().seconds;
+			timer.stop();			
+			$('#winmodal').modal('show');
+			challengeWon = true;
+			document.getElementById('mainframe').contentWindow.document.getElementById('success').style.color = "green";
+			document.getElementById('timer').style.color = "green";
+	}
 	//add charcount counter
 	var timer = new Timer();
 	var timeTaken = 0;
