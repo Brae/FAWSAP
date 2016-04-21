@@ -273,7 +273,7 @@ echo "<div id='challengeID' style='display:none;'>" . $challengeIDs[$number] . "
             <li><a href="./xvwa.php"><i class="fa fa-link"></i> <span>XVWA</span></a></li>
             <li class="active"><a href="./leaderboard.php"><i class="fa fa-bar-chart"></i> <span>LeaderBoard</span></a></li>
 			<li class="header">CHALLENGES</li>
-            <li><a href="./easy.php?n=1"><i class="fa fa-link"></i> <span>Easy</span></a></li>            
+            <li><a href="./easy.php?n=0"><i class="fa fa-link"></i> <span>Easy</span></a></li>            
           </ul><!-- /.sidebar-menu -->
         </section>
         <!-- /.sidebar -->
