@@ -314,7 +314,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 		$res = mysqli_query($db, "SELECT COUNT(DISTINCT challengeid) AS total FROM scores WHERE username='".$name."';");
 						$data = mysqli_fetch_assoc($res);
 						if ($data["total"] != 0) {
-							$perc = ($data["total"]/$numChall)*100;
+							$perc = round(($data["total"]/$numChall)*100,0);
 							echo "<h3>".$perc."<sup style='font-size:20px'>%</sup></h3>";
 						} else {
 							echo "<h3>0<sup style='font-size:20px'>%</sup></h3>";
