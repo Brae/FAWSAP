@@ -273,7 +273,7 @@ echo "<div id='challengeID' style='display:none;'>" . $challengeIDs[$number] . "
             <li><a href="./xvwa.php"><i class="fa fa-link"></i> <span>XVWA</span></a></li>
             <li><a href="./leaderboard.php"><i class="fa fa-bar-chart"></i> <span>LeaderBoard</span></a></li>
             <li class="header">CHALLENGES</li>
-            <li class="active"><a href="./easy.php"><i class="fa fa-link"></i> <span>Easy</span></a></li>
+            <li class="active"><a href="./easy.php?n=1"><i class="fa fa-link"></i> <span>Easy</span></a></li>
             <li class="header">TIMER</li>
           	<li ><a class="avoid-clicks" href="#"><i class="fa fa-clock-o"></i><span style="color:red;" id="timer">00:00:00</span></a></li>
           	<li><a href="#"><i class="fa fa-keyboard-o"></i><span  style="color:white;" id="charCount">CharCount:</span></a></li>
@@ -546,7 +546,6 @@ echo "<div id='challengeID' style='display:none;'>" . $challengeIDs[$number] . "
 			clicks : clickCount,
 			chars : charCount
 		}, function(data, status) {
-			alert(data + getUrlParameter('n'));
 			if (getUrlParameter('n') == undefined) {
 				window.location = "./easy.php?n=0";
 			} else {
