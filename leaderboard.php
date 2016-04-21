@@ -350,10 +350,10 @@ echo "<div id='challengeID' style='display:none;'>" . $challengeIDs[$number] . "
 										break;
 									} else {
 										echo "<tr>";
-										echo "<th>" . $row["username"] . "</th>";
-										echo "<th>" . $row["time"] . "</th>";
-										echo "<th>" . $row["clickcount"] . "</th>";
-										echo "<th>" . $row["charcount"] . "</th>";
+										echo "<td>" . $row["username"] . "</td>";
+										echo "<td>" . $row["time"] . "</td>";
+										echo "<td>" . $row["clickcount"] . "</td>";
+										echo "<td>" . $row["charcount"] . "</td>";
 										echo "</tr>";
 									}
 									$ii++;
