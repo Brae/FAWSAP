@@ -250,15 +250,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <li><a href="./index.php"><i class="fa fa-link"></i> <span>Home</span></a></li>
             <li class="header">APPS</li>
             <!-- Optionally, you can add icons to the links -->
-<li class="active"><a href="./bricks.php"><i class="fa fa-link"></i> <span>Bricks</span></a></li>
-            <li><a href="./dvwa.php"><i class="fa fa-link"></i> <span>DVWA</span></a></li>
+			<li><a href="./bricks.php"><i class="fa fa-link"></i> <span>Bricks</span></a></li>
+            <li class="active"><a href="./dvwa.php"><i class="fa fa-link"></i> <span>DVWA</span></a></li>
             <li><a href="./xvwa.php"><i class="fa fa-link"></i> <span>XVWA</span></a></li>
-            <li><a href="./leaderboard.php"><i class="fa fa-link"></i> <span>LeaderBoard</span></a></li>
-            <li class="header">Statistics</li>
-            <li style="color:white;">Timer:</li>
-          <h3>  <li id="timer" style="color:red;">00:00:00</li> </h3>
-          <li id="charCount" style="color:white;">CharCount:</li>
-          <li id="clickCount" style="color:white;">ClickCount:</li>
+            <li class="active"><a href="./leaderboard.php"><i class="fa fa-bar-chart"></i> <span>LeaderBoard</span></a></li>
+            <li class="header">CHALLENGES</li>
+            <li><a href="./easy.php"><i class="fa fa-link"></i> <span>Easy</span></a></li>
+            <li class="header">TIMER</li>
+          	<li ><a class="avoid-clicks" href="#"><i class="fa fa-clock-o"></i><span style="color:red;" id="timer">00:00:00</span></a></li>
+          	<li><a href="#"><i class="fa fa-keyboard-o"></i><span  style="color:white;" id="charCount">CharCount:</span></a></li>
+          	<li><a href="#"><i class="fa fa-mouse-pointer"></i><span style="color:white;" id="clickCount">ClickCount:</span></a></li>
+
 
           </ul><!-- /.sidebar-menu -->
         </section>
