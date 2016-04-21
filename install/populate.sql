@@ -10,6 +10,7 @@ CREATE DATABASE dvwa;
 CREATE DATABASE inject;
 CREATE DATABASE xvwa;
 CREATE USER 'www'@'localhost' IDENTIFIED BY 'V6Zj7QxdUv10';
+GRANT ALL PRIVILEGES ON admin.* TO 'www'@'localhost';
 GRANT ALL PRIVILEGES ON bricks.* TO 'bricks'@'localhost';
 GRANT ALL PRIVILEGES ON dvwa.* TO 'www'@'localhost';
 GRANT ALL PRIVILEGES ON inject.* TO 'www'@'localhost';
