@@ -510,6 +510,7 @@ function win() {
 
 function save() {
     //alert("Time Taken: " + timeTaken + "\nValue from timer: " + timer.getTotalTimeValues().seconds);#
+    console.log("pathname from IFrame: " + document.getElementById("dvwa").contentWindow.location.pathname);
     var challID = getID(document.getElementById("dvwa").contentWindow.location.pathname);
 
     $.post("php/submitchallenge.php", {
@@ -527,16 +528,19 @@ function save() {
 }
 
 function getID(path) {
-    console.log(path);
+    console.log("Path received at getID: " + path);
     var div = document.getElementById("challengeID").getAttribute("data");
     var data = JSON.parse(div);
 
     var id = 0;
     for (i = 0; i < data.length; i++) {
+    	
+        console.log(i + ":url = " + data[i].url + "\tPath: " + path);
         if (data[i].url == path) {
             id = data[i].id;
         }
     }
+    console.log("ID: " + id);
     return id;
 }
 
