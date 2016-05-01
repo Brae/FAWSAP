@@ -1,5 +1,4 @@
 <?php
-require_once './php/challengeconfig.php';
 $DB_USER_SERVER = 'localhost';
 $DB_USER_USERNAME = 'user';
 $DB_USER_PASSWORD = '5H4C9wKxoTdh';

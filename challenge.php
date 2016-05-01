@@ -5,25 +5,44 @@ scratch. This page gets rid of all links and provides the needed markup only.
 -->
 <?php
 include ('php/session.php');
-$chall_sql = mysqli_query($db, "SELECT * FROM challenges WHERE difficulty = 1;");
-$challengeUrls = array();
-$challengeIDs = array();
-if (mysqli_num_rows($chall_sql) > 0) {
-	while ($row = mysqli_fetch_assoc($chall_sql)) {
-		$challengeUrls[] = $row["url"];
-		$challengeIDs[] = $row["id"];
-	}
-}
+
 $number = 0;
 if (isset($_GET['n'])) {
-	if ($_GET['n'] < mysqli_num_rows($chall_sql)) {
-		$number = $_GET['n'];
+	$_SESSION['n'] = $_GET['n'];
+	$number = $_GET['n'];
+} else {
+	if (isset($_SESSION['n'])) {
+		$number = $_SESSION['n'];
+	} else {
+		$number=0;		
 	}
 }
-echo "<div id='challengeID' style='display:none;'>" . $challengeIDs[$number] . "</div>";
+
+if(isset($_GET['playlist'])) {
+	$_SESSION['current_playlist'] = $_GET['playlist'];
+}
+if (isset($_SESSION['current_playlist'])) {
+	$chall_sql = mysqli_query($db, "SELECT * FROM playlists WHERE name = '".$_SESSION['current_playlist']."';");
+	$challengeIDs = array();
+	if (mysqli_num_rows($chall_sql) > 0) {
+		$row = mysqli_fetch_assoc($chall_sql);
+		$challengeIDs = explode(";", $row['challenges']);
+		$lookupsql = "SELECT * FROM challenges WHERE id=".$challengeIDs[$number].";";
+		$lookupresult = mysqli_query($db, $lookupsql);
+		if (mysqli_num_rows($lookupresult) > 0) {
+			$lookuprow = mysqli_fetch_assoc($lookupresult);			
+		}
+	}	
+	echo "<div id='challengeID' style='display:none;'>" . $challengeIDs[$number] . "</div>";
+}
 
 
-include ('challenges/dvwa_sql_low.php');
+
+
+
+
+
+include ('challenges/'.$lookuprow['src']);
  ?>
 <html>
   <head>
@@ -297,7 +316,7 @@ include ('challenges/dvwa_sql_low.php');
         </section>
 
         <!-- Main content -->
-        <section class="content body">
+        <section class="content">
 
 
 
@@ -320,10 +339,7 @@ include ('challenges/dvwa_sql_low.php');
                   <!-- /.box-header -->
                   <div class="box-body">
                     <!-- START IFRAME-->
-
-                    <div class="embed-responsive embed-responsive-4by3">
-                     	<?php echo $page['body']; ?>
-                    </div>
+                    <?php echo $page['body']; ?>
                     <!--END IFRAME-->
                   </div>
                   <!-- /.box-body -->
