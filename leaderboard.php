@@ -5,22 +5,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 -->
 <?php
 include ('php/session.php');
-$chall_sql = mysqli_query($db, "SELECT * FROM challenges WHERE difficulty = 1;");
-$challengeUrls = array();
-$challengeIDs = array();
-if (mysqli_num_rows($chall_sql) > 0) {
-	while ($row = mysqli_fetch_assoc($chall_sql)) {
-		$challengeUrls[] = $row["url"];
-		$challengeIDs[] = $row["id"];
-	}
-}
-$number = 0;
-if (isset($_GET['n'])) {
-	if ($_GET['n'] < mysqli_num_rows($chall_sql)) {
-		$number = $_GET['n'];
-	}
-}
-echo "<div id='challengeID' style='display:none;'>" . $challengeIDs[$number] . "</div>";
+
  ?>
 <html>
   <head>
