@@ -15,7 +15,7 @@ $page = array(
 $page['page_id'] = 'sqli';
 
 #$db_user = mysqli_connect(DB_USER_SERVER, DB_USER_USERNAME, DB_USER_PASSWORD, $page['required_db']);
-require_once "dvwa/vulnerabilities/sqli/source/low.php";
+require_once "./php/config_user.php";
 $method='GET';
 
 // Is PHP function magic_quotee enabled?
@@ -26,6 +26,25 @@ if (ini_get('magic_quotes_gpc') == true) {
 // Is PHP function safe_mode enabled?
 if (ini_get('safe_mode') == true) {
 	$WarningHtml .= "<div class=\"warning\">The PHP function \"<em>Safe mode</em>\" is enabled.</div>";
+}
+
+$html = '';
+if(isset($_REQUEST[ 'id' ])) {	
+	// Get input
+	$id = $_REQUEST[ 'id' ];
+
+	// Check database
+	$query  = "SELECT first_name, last_name FROM users WHERE user_id = '$id';";
+	$result = mysqli_query($db_user, $query ) or die( '<pre>' . mysqli_error() . '</pre>' );
+
+	// Get results
+	while ($row = mysqli_fetch_assoc($result)) {
+		$first = $row['first_name'];
+		$last = $row['last_name'];
+		$html .= "<pre>ID: {$id}<br />First name: {$first}<br />Surname: {$last}</pre>";
+	}
+
+	mysqli_close($db_user);
 }
 
 $page['body'] .= "<div class='row'><div class='col-md-4 col-md-offset-4'><div class='box box-primary'>";
