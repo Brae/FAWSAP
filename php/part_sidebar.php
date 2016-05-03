@@ -29,15 +29,42 @@
           <!-- Sidebar Menu -->
           <ul class="sidebar-menu">
             <li class="header">MAIN</li>
-            <li><a href="./index.php"><i class="fa fa-link"></i> <span>Home</span></a></li>
-            <li class="header">APPS</li>
+            <li<?php if (basename($_SERVER['PHP_SELF']) == "index.php") {echo " class='active'";} ?>><a href="./index.php"><i class="fa fa-link"></i> <span>Home</span></a></li>
+            <li<?php if (basename($_SERVER['PHP_SELF']) == "leaderboard.php") {echo " class='active'";} ?>><a href="./leaderboard.php"><i class="fa fa-bar-chart"></i> <span>LeaderBoard</span></a></li>
+            <li class="header">CATEGORIES</li>
             <!-- Optionally, you can add icons to the links -->
-			<li><a href="./bricks.php"><i class="fa fa-link"></i> <span>Bricks</span></a></li>
-            <li><a href="./dvwa.php"><i class="fa fa-link"></i> <span>DVWA</span></a></li>
-            <li><a href="./xvwa.php"><i class="fa fa-link"></i> <span>XVWA</span></a></li>
-            <li class="active"><a href="./leaderboard.php"><i class="fa fa-bar-chart"></i> <span>LeaderBoard</span></a></li>
-			<li class="header">CHALLENGES</li>
-            <li><a href="./easy.php?n=0"><i class="fa fa-link"></i> <span>Easy</span></a></li>            
+			<li<?php if (basename($_SERVER['PHP_SELF']) == "bricks.php") {echo " class='active'";} ?>><a href="./bricks.php"><i class="fa fa-link"></i> <span>Bricks</span></a></li>
+            <li<?php if (basename($_SERVER['PHP_SELF']) == "dvwa.php") {echo " class='active'";} ?>><a href="./dvwa.php"><i class="fa fa-link"></i> <span>DVWA</span></a></li>
+            <li<?php if (basename($_SERVER['PHP_SELF']) == "xvwa.php") {echo " class='active'";} ?>><a href="./xvwa.php"><i class="fa fa-link"></i> <span>XVWA</span></a></li>
+			<li class="header">PLAYLISTS</li>
+			<?php
+			$playlistsql = "SELECT name FROM playlists;";
+			$plresult = mysqli_query($db, $playlistsql);
+			if (mysqli_num_rows($plresult) > 0) {
+				while($row = mysqli_fetch_assoc($plresult)) {
+					if (basename($_SERVER['PHP_SELF']) == "challenge.php") {
+						if (isset($_SESSION['current_playlist'])) {
+							if ($_SESSION['current_playlist'] == $row['name']) {
+								echo "<li class='active'><a href='./challenge.php?playlist={$row['name']}'><i class='fa fa-link'></i><span>{$row['name']}</span></a></li>";
+							} else {
+								echo "<li><a href='./challenge.php?playlist={$row['name']}'><i class='fa fa-link'></i><span>{$row['name']}</span></a></li>";
+							}
+						} else {
+							if ($_GET['playlist'] == $row['name']) {
+								echo "<li class='active'><a href='./challenge.php?playlist={$row['name']}'><i class='fa fa-link'></i><span>{$row['name']}</span></a></li>";
+							} else {
+								echo "<li><a href='./challenge.php?playlist={$row['name']}'><i class='fa fa-link'></i><span>{$row['name']}</span></a></li>";
+							}
+						}
+						
+					} else {
+						echo "<li><a href='./challenge.php?playlist={$row['name']}'><i class='fa fa-link'></i><span>{$row['name']}</span></a></li>";
+					}
+					
+				}
+			}
+			
+			?>           
           </ul><!-- /.sidebar-menu -->
         </section>
         <!-- /.sidebar -->

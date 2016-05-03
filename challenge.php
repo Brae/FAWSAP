@@ -10,16 +10,25 @@ $number = 0;
 if (isset($_GET['n'])) {
 	$_SESSION['n'] = $_GET['n'];
 	$number = $_GET['n'];
+	header('Location:./index.php');
 } else {
+	echo "<script>console.log('GET is not set');</script>";
 	if (isset($_SESSION['n'])) {
+		echo "<script>console.log('SESSION is set: {$_SESSION['n']}');</script>";
 		$number = $_SESSION['n'];
 	} else {
+		echo "<script>console.log('GET is set');</script>";
 		$number=0;		
 	}
 }
 
 if(isset($_GET['playlist'])) {
-	$_SESSION['current_playlist'] = $_GET['playlist'];
+	if ($_GET['playlist'] == 0) {
+		$_SESSION['n'] = 0;
+		$_SESSION['playlist'] = "";
+	} else {
+		$_SESSION['current_playlist'] = $_GET['playlist'];
+	}	
 }
 if (isset($_SESSION['current_playlist'])) {
 	$chall_sql = mysqli_query($db, "SELECT * FROM playlists WHERE name = '".$_SESSION['current_playlist']."';");
@@ -27,6 +36,8 @@ if (isset($_SESSION['current_playlist'])) {
 	if (mysqli_num_rows($chall_sql) > 0) {
 		$row = mysqli_fetch_assoc($chall_sql);
 		$challengeIDs = explode(";", $row['challenges']);
+		$temp = count($challengeIDs);
+		echo "<script>console.log('Num of IDs: {$temp}')</script>";
 		$lookupsql = "SELECT * FROM challenges WHERE id=".$challengeIDs[$number].";";
 		$lookupresult = mysqli_query($db, $lookupsql);
 		if (mysqli_num_rows($lookupresult) > 0) {
@@ -35,12 +46,6 @@ if (isset($_SESSION['current_playlist'])) {
 	}	
 	echo "<div id='challengeID' style='display:none;'>" . $challengeIDs[$number] . "</div>";
 }
-
-
-
-
-
-
 
 include ('challenges/'.$lookuprow['src']);
  ?>
@@ -131,6 +136,9 @@ include ('challenges/'.$lookuprow['src']);
                     </div>
                   </div>
                   <!-- /.box-header -->
+                  <?php
+                  echo "SESSION: {$_SESSION['n']} || Playlist: {$_SESSION['current_playlist']}";
+				  ?>
                   <div class="box-body">
                     <!-- START IFRAME-->
                     <?php echo $page['body']; ?>
@@ -201,16 +209,11 @@ include ('challenges/'.$lookuprow['src']);
 		echo "clicks : sessionStorage.clickCount,";
 		echo "chars : sessionStorage.charCount";
 		echo "}, function(data, status) {";
-		if (isset($_SESSION['n'])) {
-			$n = intval($_SESSION['n'],10);
-			if ($n+1<count($challengeIDs)) {
-				$n = $n + 1;
-				echo "window.location = './challenge.php?n={$n}';";				
-			} else {
-				echo "window.location = './index.php';";
-			}		
+		if ($number+1 < count($challengeIDs)-1) {
+			$n = $number+1;
+			echo "window.location = './challenge.php?n={$n}';";
 		} else {
-			echo "window.location = './challenge.php?n=1';";
+			echo "window.location = './challenge.php?playlist=0';";			
 		}
 		echo "});}</script>";  	
   	?>
