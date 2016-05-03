@@ -71,7 +71,7 @@ include ('php/session.php');
 			<div class="content-wrapper">
 				<!-- Content Header (Page header) -->
 				<section class="content-header">
-					<h1> DVWA <small>Damn Vulnerable Web App</small></h1>
+					<h1> Leaderboard <small>Top 10 per challenge</small></h1>
 					<ol class="breadcrumb">
 						<li>
 							<a href="#"><i class="fa fa-dashboard"></i> Level</a>

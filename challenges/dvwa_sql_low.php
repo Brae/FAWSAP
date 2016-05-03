@@ -8,14 +8,11 @@ $page = array(
 		'app_src'         => 'Damn Vulnerable Web App',
 		'subtitle'        => 'Vulnerability - SQL Injection',
 		'body'            => '',
+		'help'			  => '',
 		'page_id'         => '',
-		'help_button'     => '',
-		'source_button'   => '',
 		'required_db'     => 'dvwa'
 	);
 $page['page_id'] = 'sqli';
-$page['help_button'] = 'sqli';
-$page['source_button'] = 'sqli';
 
 #$db_user = mysqli_connect(DB_USER_SERVER, DB_USER_USERNAME, DB_USER_PASSWORD, $page['required_db']);
 require_once "dvwa/vulnerabilities/sqli/source/low.php";

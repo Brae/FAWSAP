@@ -5,16 +5,39 @@ $page = array(
 		'app_src'         => 'Xtreme Vulnerable Web Application',
 		'subtitle'        => 'Vulnerability - SQL Injection',
 		'body'            => '',
+		'help'			  => '',
 		'page_id'         => '',
-		'help_button'     => '',
-		'source_button'   => '',
 		'required_db'     => 'xvwa'
 	);
 $page['page_id'] = 'sqli';
-$page['help_button'] = 'sqli';
-$page['source_button'] = 'sqli';
 
-$page['body'] .= "<div class='row'><div class='col-md-4 col-md-offset-4'><div class='box box-primary'>";
+$page['help'] .= "<div class='row'><div class='col-md-12'><div class='box box-primary'>";
+$page['help'] .= "<div class='box-header'><h3 class='box-title'>Help Section</h3>";
+$page['help'] .= "<div class='box-tools pull-right'><button class='btn btn-box-tool' data-widget='collapse'><i class='fa fa-minus'></i></button>";
+$page['help'] .= "<button class='btn btn-box-tool' data-widget='remove'><i class='fa fa-times'></i></button></div></div>";
+$page['help'] .= "<div class='box-body'>";
+$page['help'] .= "<h4>Intro</h4><p>";
+$page['help'] .= "This answer for this challenge is within a different table to the query currently being used.</p>";
+$page['help'] .= "<p>In order to get the answer for this challenge, the passwords must be dumped from the users table within the xvwa database</p>";
+$page['help'] .= "<h4>Hints</h4>";
+$page['help'] .= "<ul><li>The current database is 'xvwa'</li>";
+$page['help'] .= "<li>The table queried by the original SELECT is 'caffaine'</li>";
+$page['help'] .= "<li>The table holding the answer is 'users' in the same database</li>";
+$page['help'] .= "<li>Try using the UNION command</li>";
+$page['help'] .= "<li>The column names within 'users' are 'username' and 'password'</li></ul>";
+$page['help'] .= "</div></div>";
+$page['help'] .= "<div class='box collapsed-box box-danger'><div class='box-header'><h3 class='box-title'>Solution</h3><div class='box-tools pull-right'><button class='btn btn-box-tool' data-widget='collapse'><i class='fa fa-plus'></i></button><button class='btn btn-box-tool' data-widget='remove'><i class='fa fa-times'></i></button></div></div>";
+$page['help'] .= "<div class='box-body'>";
+$page['help'] .= "<p>The query being built from the text input field is currently</p>";
+$page['help'] .= "<code>SELECT * FROM caffaine WHERE idname LIKE '%[input]%';</code>";
+$page['help'] .= "<p>The UNION command can be used here to join the content of another table into the result list. 5 outputs are shown on the screen, so intially 5 columns can be passed to the ORDER BY</p>";
+$page['help'] .= "<code>SELECT * FROM caffaine WHERE idname LIKE '%<span color='red'>%' UNION SELECT 1,2,3,4,5 FROM xvwa.users;#</span>%';</code>";
+$page['help'] .= "<p>This will return an error due to the number of columns being returned by the <code>SELECT * FROM caffaine</code> is not 5. Try increasing this one at a time (i.e. add another column to the UNION SELECT arguments) until the page displays. The values arguments to the UNION should be at the bottom of the generated web page</p>";
+$page['help'] .= "<p>The initial command is evidently returning 7 columns, and only some of these are being displayed. Column names can be switched for the numbers used to return the values needed from the other table.</p>";
+$page['help'] .= "</div></div></div></div>";
+
+
+$page['body'] .= "<div class='row'><div class='col-md-4 col-md-offset-4'><div class='box'>";
 
 $page['body'] .= "<form role='form' action='#' method='POST'>";
 $page['body'] .= "<div class='box-body'>";

@@ -1,18 +1,15 @@
 <?php
 $page = array(
-'title' => 'GET Parameters', 
-'title_separator' => ' :: ', 
-'app_src' => '', 
-'subtitle' => 'GET Vulnerability #1', 
-'body' => '', 
-'page_id' => '', 
-'help_button' => '', 
-'source_button' => '', 
-'required_db' => 'inject'
+	'title' => 'GET Parameters',
+	'title_separator' => ' :: ',
+	'app_src' => '',
+	'subtitle' => 'GET Vulnerability #1',
+	'body' => '',
+	'help' => '',
+	'page_id' => '',
+	'required_db' => 'inject'
 );
 $page['page_id'] = 'sqli';
-$page['help_button'] = 'sqli';
-$page['source_button'] = 'sqli';
 
 $DB_USER_SERVER = 'localhost';
 $DB_USER_USERNAME = 'user';
