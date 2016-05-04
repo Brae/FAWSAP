@@ -6,6 +6,8 @@ $page = array(
 		'subtitle'        => 'Ping',
 		'body'            => '',
 		'help'			  => '',
+		'output'		  => '',
+		'scripts'		  => '',
 		'page_id'         => '',
 		'required_db'     => 'dvwa'
 	);

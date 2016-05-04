@@ -3,48 +3,7 @@
 This is a starter template page. Use this page to start your new project from
 scratch. This page gets rid of all links and provides the needed markup only.
 -->
-<?php
-include ('php/session.php');
 
-$number = 0;
-if (isset($_GET['n'])) {
-	$_SESSION['n'] = $_GET['n'];
-	$number = $_GET['n'];
-} else {
-	if (isset($_SESSION['n'])) {
-		$number = $_SESSION['n'];
-	} else {
-		$number=0;		
-	}
-}
-
-if(isset($_GET['playlist'])) {
-	if ($_GET['playlist'] == "0") {
-		$_SESSION['n'] = 0;
-		$_SESSION['playlist'] = "";		
-		header('Location: ./index.php');
-	} else {
-		$_SESSION['current_playlist'] = $_GET['playlist'];
-	}	
-}
-if (isset($_SESSION['current_playlist'])) {
-	$chall_sql = mysqli_query($db, "SELECT * FROM playlists WHERE name = '".$_SESSION['current_playlist']."';");
-	$challengeIDs = array();
-	if (mysqli_num_rows($chall_sql) > 0) {
-		$row = mysqli_fetch_assoc($chall_sql);
-		$challengeIDs = explode(";", $row['challenges']);
-		$temp = count($challengeIDs);
-		$lookupsql = "SELECT * FROM challenges WHERE id=".$challengeIDs[$number].";";
-		$lookupresult = mysqli_query($db, $lookupsql);
-		if (mysqli_num_rows($lookupresult) > 0) {
-			$lookuprow = mysqli_fetch_assoc($lookupresult);			
-		}
-	}	
-	echo "<div id='challengeID' style='display:none;'>" . $challengeIDs[$number] . "</div>";
-}
-
-include ('challenges/'.$lookuprow['src']);
- ?>
 <html>
   <head>
     <meta charset="utf-8">
@@ -72,6 +31,52 @@ include ('challenges/'.$lookuprow['src']);
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    
+    <?php
+include ('php/session.php');
+
+$number = 0;
+if (isset($_GET['n'])) {
+	$_SESSION['n'] = $_GET['n'];
+	$number = $_GET['n'];
+} else {
+	if (isset($_SESSION['n'])) {
+		$number = $_SESSION['n'];
+	} else {
+		$number = 0;
+	}
+}
+
+if (isset($_GET['playlist'])) {
+	if ($_GET['playlist'] == "0") {
+		$_SESSION['n'] = 0;
+		$_SESSION['playlist'] = "";
+		header('Location: ./index.php');
+	} else {
+		$_SESSION['current_playlist'] = $_GET['playlist'];
+	}
+}
+if (isset($_SESSION['current_playlist'])) {
+	$chall_sql = mysqli_query($db, "SELECT * FROM playlists WHERE name = '" . $_SESSION['current_playlist'] . "';");
+	$challengeIDs = array();
+	if (mysqli_num_rows($chall_sql) > 0) {
+		$row = mysqli_fetch_assoc($chall_sql);
+		$challengeIDs = explode(";", $row['challenges']);
+		$temp = count($challengeIDs);
+		$lookupsql = "SELECT * FROM challenges WHERE id=" . $challengeIDs[$number] . ";";
+		$lookupresult = mysqli_query($db, $lookupsql);
+		if (mysqli_num_rows($lookupresult) > 0) {
+			$lookuprow = mysqli_fetch_assoc($lookupresult);
+		}
+	}
+	echo "<div id='challengeID' style='display:none;'>" . $challengeIDs[$number] . "</div>";
+}
+
+include ('challenges/' . $lookuprow['src']);
+ ?>
+    
+    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    
 
 
   </head>
@@ -99,9 +104,13 @@ include ('challenges/'.$lookuprow['src']);
     <div class="wrapper" id="mainframe">
 
       <!-- Main Header -->
-      <?php include 'php/part_header.php'; ?>
+      <?php
+		include 'php/part_header.php';
+ ?>
       <!-- Left side column. contains the logo and sidebar -->
-      <?php include 'php/part_sidebar_timer.php'; ?>
+      <?php
+		include 'php/part_sidebar_timer.php';
+ ?>
 
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
@@ -134,10 +143,17 @@ include ('challenges/'.$lookuprow['src']);
                   </div>
                   <!-- /.box-header -->
                  
-                  <div class="box-body">
+                  <div class="box-body" id="challengecanvas">
+                  	<div id="answerbox" class="hidden">
+        	
+        			</div>
+                  	<?php echo $page['scripts']; ?>
                     <!-- START IFRAME-->
                     <?php echo $page['body']; ?>
                     <!--END IFRAME-->
+                    
+                    <!-- Hidden box for loaded challenges to use if needed -->
+        			
                   </div>
                   <!-- /.box-body -->
                   <div class="box-footer text-center">
@@ -150,10 +166,9 @@ include ('challenges/'.$lookuprow['src']);
               <!-- /.col -->
             </div>
             
-            <?php
-            	echo $page['help']; 
-            	include 'php/modal_confirm.php'; 
-            	include 'php/modal_win.php';
+            <?php echo $page['help'];
+			include 'php/modal_confirm.php';
+			include 'php/modal_win.php';
             ?>
             
 
@@ -169,10 +184,13 @@ include ('challenges/'.$lookuprow['src']);
         </div>
         <!-- Default to the left -->
         <strong>Copyright &copy; 2015 <a href="#">Company</a>.</strong> All rights reserved.
+        
       </footer>
 
       <!-- Control Sidebar -->
-      <?php include 'php/part_control_sidebar.php'; ?>
+      <?php
+		include 'php/part_control_sidebar.php';
+ ?>
       <!-- Add the sidebar's background. This div must be placed
            immediately after the control sidebar -->
       <div class="control-sidebar-bg"></div>
@@ -196,23 +214,24 @@ include ('challenges/'.$lookuprow['src']);
   	<script src="js/easytimer.min.js"></script>
   	<script src="js/custom.js"></script>
   	<?php
-  		echo "<script>";
-		echo "function save() {";
-		echo "$.post('php/submitchallenge.php', {";
-		echo "id : {$challengeIDs[$number]},";
-		echo "username : $.trim($('#username').text()),";
-		echo "time : sessionStorage.time,";
-		echo "clicks : sessionStorage.clickCount,";
-		echo "chars : sessionStorage.charCount";
-		echo "}, function(data, status) {";
-		if ($number+1 < count($challengeIDs)-1) {
-			$n = $number+1;
-			echo "window.location = './challenge.php?n={$n}';";
-		} else {
-			echo "window.location = './challenge.php?playlist=0';";			
-		}
-		echo "});}</script>";  	
+	echo "<script>";
+	echo "function save() {";
+	echo "$.post('php/submitchallenge.php', {";
+	echo "id : {$challengeIDs[$number]},";
+	echo "username : $.trim($('#username').text()),";
+	echo "time : sessionStorage.time,";
+	echo "clicks : sessionStorage.clickCount,";
+	echo "chars : sessionStorage.charCount";
+	echo "}, function(data, status) {";
+	if ($number + 1 < count($challengeIDs) - 1) {
+		$n = $number + 1;
+		echo "window.location = './challenge.php?n={$n}';";
+	} else {
+		echo "window.location = './challenge.php?playlist=0';";
+	}
+	echo "});}</script>";
   	?>
+  	
   	<script>launch();</script>
   </body>
 </html>

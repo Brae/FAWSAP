@@ -9,6 +9,8 @@ $page = array(
 		'subtitle'        => 'Vulnerability - SQL Injection',
 		'body'            => '',
 		'help'			  => '',
+		'output'		  => '',
+		'scripts'		  => '',
 		'page_id'         => '',
 		'required_db'     => 'dvwa'
 	);
@@ -60,7 +62,7 @@ $page['body'] .= "<div class='box-footer'>";
 $page['body'] .= "<button type='submit' class='btn btn-primary'>Submit</button>";
 $page['body'] .= "</div>";
 $page['body'] .= "</form>";
-$page['body'] .= "{$html}</div></div>\n";
+$page['body'] .= "{$html}</div></div></div>";
 
 
 
