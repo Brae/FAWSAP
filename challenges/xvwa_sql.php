@@ -6,6 +6,8 @@ $page = array(
 		'subtitle'        => 'Vulnerability - SQL Injection',
 		'body'            => '',
 		'help'			  => '',
+		'output'		  => '',
+		'scripts'		  => '',
 		'page_id'         => '',
 		'required_db'     => 'xvwa'
 	);

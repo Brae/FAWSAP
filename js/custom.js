@@ -56,8 +56,7 @@ function start() {
 	});
 
 	var search = setInterval(function() {
-		var src = $('#challengecanvas').html();
-		if ($("div:contains('jKYp9Yv3MCR7660')").length > 0) {
+		if ($('div[id="challengecanvas"]:contains("jKYp9Yv3MCR7660"):not("script")').length > 0) {
 			clearTimeout(search);
 			time = timer.getTimeValues().toString();
 			timer.stop();

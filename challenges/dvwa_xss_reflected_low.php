@@ -21,9 +21,11 @@ if( array_key_exists( "name", $_GET ) && $_GET[ 'name' ] != NULL ) {
 $page['scripts'] .= "<script>
 (function() {
 	var old_alert = alert;
+	var flag = 'jKYp9Yv3';
+	var flag = flag + 'MCR7660';
 	alert = function(val) {
 		console.log('Entering new alert function');
-		$('#answerbox').html('jKYp9Yv3MCR7660');
+		$('#answerbox').html(flag);
 		console.log('Applied string');
 		console.log($('#answerbox').html());
 		old_alert.apply(this, {val});
