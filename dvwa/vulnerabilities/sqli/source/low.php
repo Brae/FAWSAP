@@ -1,33 +1,28 @@
 <?php
+$DB_USER_SERVER = 'localhost';
+$DB_USER_USERNAME = 'user';
+$DB_USER_PASSWORD = '5H4C9wKxoTdh';
+$DB_USER_DATABASE = "dvwa";
+$db_user = mysqli_connect($DB_USER_SERVER, $DB_USER_USERNAME, $DB_USER_PASSWORD, $DB_USER_DATABASE);
 //define as a challenge
-$html .= "<div id='challenge'></div>";
-if( isset( $_REQUEST[ 'Submit' ] ) ) {
+$html = "";
+if( isset( $_REQUEST[ 'id' ] ) ) {
+	
 	// Get input
 	$id = $_REQUEST[ 'id' ];
 
 	// Check database
 	$query  = "SELECT first_name, last_name FROM users WHERE user_id = '$id';";
-	$result = mysql_query( $query ) or die( '<pre>' . mysql_error() . '</pre>' );
+	$result = mysqli_query($db_user, $query ) or die( '<pre>' . mysqli_error() . '</pre>' );
 
 	// Get results
-	$num = mysql_numrows( $result );
-	$i   = 0;
-	while( $i < $num ) {
-		// Get values
-		$first = mysql_result( $result, $i, "first_name" );
-		$last  = mysql_result( $result, $i, "last_name" );
-
-		// Feedback for end user
+	while ($row = mysqli_fetch_assoc($result)) {
+		$first = $row['first_name'];
+		$last = $row['last_name'];
 		$html .= "<pre>ID: {$id}<br />First name: {$first}<br />Surname: {$last}</pre>";
-
-		// Increase loop count
-		$i++;
-	}
-	if($i > 1) {
-		$html .= "<pre id='success'>SUCCESS<br />YOU HACKED IT!</pre>";
 	}
 
-	mysql_close();
+	mysqli_close($db_user);
 }
 
 ?>
