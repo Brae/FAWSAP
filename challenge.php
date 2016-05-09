@@ -70,6 +70,14 @@ if (isset($_SESSION['current_playlist'])) {
 		}
 	}
 	echo "<div id='challengeID' style='display:none;'>" . $challengeIDs[$number] . "</div>";
+} else if (isset($_GET['category'])) {
+	$challengeIDs = array();
+	$catResults = mysqli_query($db, "SELECT * FROM challenges WHERE category = '{$_GET['category']}';");
+	while ($row = mysqli_fetch_assoc($db)) {
+		$challengeIDs[] = $row['id'];
+	}
+	mysqli_data_seek($catResults,0);
+	$lookuprow = mysqli_fetch_assoc($catResults);
 }
 
 include ('challenges/' . $lookuprow['src']);

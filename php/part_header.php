@@ -58,9 +58,11 @@
                 </ul>
               </li>
               <!-- Control Sidebar Toggle Button -->
-              <li>
-                <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-              </li>
+              	<?php 
+              		if ($_SESSION['isadmin'] == 1) {
+              			echo "<li><a href='#' data-toggle='control-sidebar'><i class='fa fa-gears'></i></a></li>";
+              		}              	
+              	?>
             </ul>
           </div>
         </nav>

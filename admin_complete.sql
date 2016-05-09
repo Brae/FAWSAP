@@ -89,6 +89,7 @@ CREATE TABLE `scores` (
 
 LOCK TABLES `scores` WRITE;
 /*!40000 ALTER TABLE `scores` DISABLE KEYS */;
+INSERT INTO `scores` VALUES (1,'Brae',11,4,11),(2,'Brae',7,3,11),(2,'Brae',6,4,6),(1,'test1',9,3,11),(2,'test1',37,5,12),(1,'test1',5,4,11),(2,'test1',12,4,11),(1,'test1',12,3,11),(2,'test1',6,3,11),(2,'test1',8,3,11),(1,'test1',282,5,11),(2,'test1',7,4,15),(1,'test1',33,36,13),(1,'test1',6,3,11),(2,'test1',5,3,11),(1,'Brae',5,3,15),(2,'Brae',6,3,12),(1,'Brae',11,3,14),(2,'Brae',6,3,2),(1,'Brae',8,3,19),(2,'Brae',5,3,3),(1,'Brae',7,3,15),(2,'Brae',7,3,11),(1,'Brae',79,5,12),(1,'Brae',7,3,11),(2,'Brae',6,3,11),(1,'Brae',6,3,11),(2,'Brae',5,3,11),(1,'Brae',6,3,15),(2,'Brae',6,3,16),(1,'Brae',8,3,13),(2,'Brae',5,3,15),(1,'Brae',51,5,13),(2,'Brae',1,1,0),(1,'Brae',1371,8,11),(2,'Brae',6,3,11),(3,'Brae',17,1,0),(1,'Brae',5,3,11),(2,'Brae',294,4,3),(3,'Brae',6,1,0),(1,'Brae',6,3,27),(2,'Brae',3,3,3),(3,'Brae',4,1,0),(1,'Brae',4,3,12),(2,'Brae',5,3,3),(3,'Brae',5,1,0),(4,'Brae',10,3,10),(5,'Brae',1,1,0),(1,'Brae',9,3,13),(2,'Brae',6,3,5),(2,'Brae',56,5,78),(3,'Brae',4,1,0),(4,'Brae',10,3,27),(5,'Brae',7,3,9);
 /*!40000 ALTER TABLE `scores` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -106,7 +107,7 @@ CREATE TABLE `users` (
   `name` varchar(256) NOT NULL,
   `active` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -115,7 +116,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'admin@fawsap.io','$2y$11$aD2quO9Ip2aqyZPKAezwW.YcmhDdBKtnKYWXE5b/Grvj8b/n3PiDK','Admin',NULL);
+INSERT INTO `users` VALUES (1,'pedrocowman@gmail.com','$2y$11$j6f9DndlKCarWjr7fAQ4n.EGGAdFnG4mQsukwR1KOqveNyTDxdvq2','Brae',NULL),(2,'test1@brae.io','$2y$11$tWd8A7a9MU1zd2N056RLy.3carZYBzlu6G2k2j9LE14xIdRIgM3ka','test1',NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -128,4 +129,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-05-05 22:28:40
+-- Dump completed on 2016-05-05 22:25:18

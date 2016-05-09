@@ -22,9 +22,13 @@
             <li<?php if (basename($_SERVER['PHP_SELF']) == "leaderboard.php") {echo " class='active'";} ?>><a href="./leaderboard.php"><i class="fa fa-bar-chart"></i> <span>LeaderBoard</span></a></li>
             <li class="header">CATEGORIES</li>
             <!-- Optionally, you can add icons to the links -->
-			<li<?php if (basename($_SERVER['PHP_SELF']) == "bricks.php") {echo " class='active'";} ?>><a href="./bricks.php"><i class="fa fa-link"></i> <span>Bricks</span></a></li>
-            <li<?php if (basename($_SERVER['PHP_SELF']) == "dvwa.php") {echo " class='active'";} ?>><a href="./dvwa.php"><i class="fa fa-link"></i> <span>DVWA</span></a></li>
-            <li<?php if (basename($_SERVER['PHP_SELF']) == "xvwa.php") {echo " class='active'";} ?>><a href="./xvwa.php"><i class="fa fa-link"></i> <span>XVWA</span></a></li>
+            <?php
+            	$catRes = mysqli_query($db, "SELECT DISTINCT(category) FROM challenges;");
+				while ($row = mysqli_fetch_assoc($catRes)) {
+					echo "<li><a href='challenge.php?category={$row['category']}'><i class='fa fa-link'></i><span>{$row['category']}</span></a></li>";
+				}
+            
+            ?>
 			<li class="header">PLAYLISTS</li>
 			<?php
 			$playlistsql = "SELECT name FROM playlists;";

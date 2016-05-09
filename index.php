@@ -156,9 +156,14 @@ echo "<h3>".$numChall."</h3><p>Challenges</p>"
 							<!-- small box -->
 							<div class="small-box bg-red">
 								<div class="inner">
-									<h3>65</h3>
+									<h3><?php 
+									$userresults = mysqli_query($db, "SELECT COUNT(name) AS total FROM users;");
+									$row = mysqli_fetch_assoc($userresults);
+									echo $row['total'];
+									?>									
+									</h3>
 									<p>
-										Unique Visitors
+										Total Users
 									</p>
 								</div>
 								<div class="icon">
@@ -296,9 +301,9 @@ echo "<h3>".$numChall."</h3><p>Challenges</p>"
 		<!-- AdminLTE App -->
 		<script src="dist/js/app.min.js"></script>
 		<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-		<script src="dist/js/pages/dashboard.js"></script>
+		<!--<script src="dist/js/pages/dashboard.js"></script>-->
 		<!-- AdminLTE for demo purposes -->
-		<script src="dist/js/demo.js"></script>
+		<!--<script src="dist/js/demo.js"></script>-->
 
 		<?php
 		$res = mysqli_query($db, "SELECT challengeid, SUM(time) as time FROM scores WHERE username='{$name}' GROUP BY challengeid;");
