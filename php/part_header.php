@@ -24,36 +24,16 @@
                   <!-- The user image in the navbar-->
                   <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
                   <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                  <span class="hidden-xs"><?php echo $name; ?></span>
+                  <span class="hidden-xs" id="username"><?php echo $name; ?></span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- The user image in the menu -->
-                  <li class="user-header">
-                    <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                  <li class="user-body">
+                    <!--<img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                     <p id="username">
                       <?php echo $name; ?>
-                    </p>
-                  </li>
-                  <!-- Menu Body -->
-                  <li class="user-body">
-                    <div class="col-xs-4 text-center">
-                      <a href="#">Followers</a>
-                    </div>
-                    <div class="col-xs-4 text-center">
-                      <a href="#">Sales</a>
-                    </div>
-                    <div class="col-xs-4 text-center">
-                      <a href="#">Friends</a>
-                    </div>
-                  </li>
-                  <!-- Menu Footer-->
-                  <li class="user-footer">
-                    <div class="pull-left">
-                      <a href="#" class="btn btn-default btn-flat">Profile</a>
-                    </div>
-                    <div class="pull-right">
-                      <a href="#" class="btn btn-default btn-flat"  onclick="parent.location='index.php?logout=TRUE'">Sign out</a>
-                    </div>
+                    </p>-->
+                    <a href="index.php?logout=TRUE" class="btn btn-default btn-flat">Sign out</a>
                   </li>
                 </ul>
               </li>

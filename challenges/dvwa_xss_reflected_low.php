@@ -1,17 +1,15 @@
 <?php
 $page = array(
 	'title' => 'Cross Site Scripting (XSS)',
-	'title_separator' => ' :: ',
-	'app_src' => '',
-	'subtitle' => 'Reflected XSS',
+	'app_src' => 'DVWA',
+	'subtitle' => 'Basic Reflected XSS',
+	'intro' => '',
 	'body' => '',
 	'help' => '',
 	'output' => '',
 	'scripts' => '',
-	'page_id' => '',
 	'required_db' => 'dvwa'
 );
-$page['page_id'] = 'sqli';
 
 // Is there any input?
 if( array_key_exists( "name", $_GET ) && $_GET[ 'name' ] != NULL ) {
@@ -24,13 +22,8 @@ $page['scripts'] .= "<script>
 	var flag = 'jKYp9Yv3';
 	var flag = flag + 'MCR7660';
 	alert = function(val) {
-		console.log('Entering new alert function');
 		$('#answerbox').html(flag);
-		console.log('Applied string');
-		console.log($('#answerbox').html());
-		old_alert.apply(this, {val});
-		console.log('Called super');
-		console.log($('#answerbox').html());
+		old_alert.call(this, val);
 	}
 })();
 </script>";

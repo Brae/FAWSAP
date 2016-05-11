@@ -3,20 +3,18 @@
 
 
 $page = array(
-		'title'           => 'DVWA',
-		'title_separator' => ' :: ',
-		'app_src'         => 'Damn Vulnerable Web App',
-		'subtitle'        => 'Vulnerability - SQL Injection',
+		'title'           => 'SQL injection',
+		'app_src'         => 'DVWA',
+		'subtitle'        => 'Basic SQLi vulnerability',
+		'intro'			  => '',
 		'body'            => '',
 		'help'			  => '',
 		'output'		  => '',
 		'scripts'		  => '',
-		'page_id'         => '',
 		'required_db'     => 'dvwa'
 	);
-$page['page_id'] = 'sqli';
 
-#$db_user = mysqli_connect(DB_USER_SERVER, DB_USER_USERNAME, DB_USER_PASSWORD, $page['required_db']);
+
 require_once "./php/config_user.php";
 $method='GET';
 

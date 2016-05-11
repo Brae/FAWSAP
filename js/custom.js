@@ -5,11 +5,19 @@ var time;
 
 function launch() {
 	console.log("Running? " + sessionStorage.running);
+	sessionStorage.usedhelp = 'false';
 	if (sessionStorage.running == "true") {
 		start();
 	} else {
 		$('#confirmmodal').modal('show');
 		sessionStorage.time = "0";
+	}
+	
+	if ($('#help-section').length > 0) {
+		$('#help-section').click(function() {
+			console.log('Help section opened');
+			sessionStorage.usedhelp = 'true';
+		});
 	}
 
 }

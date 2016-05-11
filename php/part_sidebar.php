@@ -18,7 +18,7 @@
           <!-- Sidebar Menu -->
           <ul class="sidebar-menu">
             <li class="header">MAIN</li>
-            <li<?php if (basename($_SERVER['PHP_SELF']) == "index.php") {echo " class='active'";} ?>><a href="./index.php"><i class="fa fa-link"></i> <span>Home</span></a></li>
+            <li<?php if (basename($_SERVER['PHP_SELF']) == "index.php") {echo " class='active'";} ?>><a href="./index.php"><i class="fa fa-home"></i> <span>Home</span></a></li>
             <li<?php if (basename($_SERVER['PHP_SELF']) == "leaderboard.php") {echo " class='active'";} ?>><a href="./leaderboard.php"><i class="fa fa-bar-chart"></i> <span>LeaderBoard</span></a></li>
             <li class="header">CATEGORIES</li>
             <!-- Optionally, you can add icons to the links -->

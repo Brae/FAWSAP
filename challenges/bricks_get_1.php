@@ -1,17 +1,28 @@
 <?php
 $page = array(
 	'title' => 'GET Parameters',
-	'title_separator' => ' :: ',
-	'app_src' => '',
+	'app_src' => 'Bricks',
 	'subtitle' => 'GET Vulnerability #1',
+	'intro' => '',
 	'body' => '',
 	'help' => '',
 	'output' => '',
 	'scripts' => '',
-	'page_id' => '',
 	'required_db' => 'inject'
 );
-$page['page_id'] = 'sqli';
+
+$page['intro'] .= "	<p>
+						This challenge is a basic example of manipulating HTTP GET parameters to access information which 
+						a particular user may not be intended to be able to view.
+					</p>
+					<p>
+						For example, if a GET parameter is used to choose which user's information is fetched from a database, 
+						changing the value manually can give might give access to sensitive information. In general, GET should 
+						never be used for anything involving sensitive data.
+					</p>
+					<h4>
+						To complete this challenge, the information relating to the user 'Wesley' must be accessed.
+					</h4>";
 
 require_once "./php/config_user.php";
 $id = "";

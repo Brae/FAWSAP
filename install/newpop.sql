@@ -23,3 +23,16 @@ INSERT INTO playlists (name, challenges, creator) VALUES ('Easy', '1;2;3;4;5;','
 
 INSERT INTO users (email, password, name, isadmin) VALUES ('admin','$2y$11$aD2quO9Ip2aqyZPKAezwW.YcmhDdBKtnKYWXE5b/Grvj8b/n3PiDK','Admin',true);
 
+#SETUP FLAGS FOR INCLUDED CHALLENGES
+USE dvwa;
+INSERT INTO users (user_id, first_name, last_name, user, password, avatar, last_login, failed_login) VALUES (6, 'John','jKYp9Yv3MCR7660','john','8d3533d75ae2c3966d7e0d4fcc69216b','','2016-04-21 15:18:06',0);
+
+USE xvwa;
+INSERT INTO users (username, password) VALUES ('wesley','jKYp9Yv3MCR7660');
+
+USE inject;
+INSERT INTO users (idusers, name, email, password, ua, ref, host, lang) VALUES (4,'Alan','jKYp9Yv3MCR7660@gmail.com','password','FAWSAP','','127.0.0.1','en');
+
+
+
+

@@ -55,7 +55,10 @@ if (isset($_GET['playlist'])) {
 	} else {
 		$_SESSION['current_playlist'] = $_GET['playlist'];
 	}
+}  else if (isset($_GET['category'])) {
+	$_SESSION['category'] = $_GET['category'];
 }
+
 if (isset($_SESSION['current_playlist'])) {
 	$chall_sql = mysqli_query($db, "SELECT * FROM playlists WHERE name = '" . $_SESSION['current_playlist'] . "';");
 	$challengeIDs = array();
@@ -67,17 +70,27 @@ if (isset($_SESSION['current_playlist'])) {
 		$lookupresult = mysqli_query($db, $lookupsql);
 		if (mysqli_num_rows($lookupresult) > 0) {
 			$lookuprow = mysqli_fetch_assoc($lookupresult);
+		} else {
+			//TODO Add some sort of catch if 'n' is not a valid index
 		}
 	}
 	echo "<div id='challengeID' style='display:none;'>" . $challengeIDs[$number] . "</div>";
-} else if (isset($_GET['category'])) {
+} else if (isset($_SESSION['category'])) {
 	$challengeIDs = array();
-	$catResults = mysqli_query($db, "SELECT * FROM challenges WHERE category = '{$_GET['category']}';");
-	while ($row = mysqli_fetch_assoc($db)) {
+	$catResults = mysqli_query($db, "SELECT * FROM challenges WHERE category = '{$_SESSION['category']}';");
+	while ($row = mysqli_fetch_assoc($catResults)) {
 		$challengeIDs[] = $row['id'];
 	}
-	mysqli_data_seek($catResults,0);
-	$lookuprow = mysqli_fetch_assoc($catResults);
+	$lookupresult = mysqli_query($db, "SELECT * FROM challenges WHERE id={$challengeIDs[$number]};");
+	if (mysqli_num_rows($lookupresult) > 0) {
+		$lookuprow = mysqli_fetch_assoc($lookupresult);
+	} else {
+		//TODO Catch invalid 'n'
+	}
+	
+	if (isset($_SESSION['current_playlist'])) {
+		unset($_SESSION['current_playlist']);
+	}
 }
 
 include ('challenges/' . $lookuprow['src']);
@@ -126,7 +139,7 @@ include ('challenges/' . $lookuprow['src']);
         <section class="content-header">
           <h1>
             <?php echo $page['title']; ?>
-            <small><?php echo $page['app_src']; ?></small>
+            
           </h1>
           <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
@@ -136,6 +149,13 @@ include ('challenges/' . $lookuprow['src']);
 
         <!-- Main content -->
         <section class="content">
+        	
+        	<!-- Introduction (i.e. info about challenge which doesn't give the solution away) -->
+        	<?php
+        		if ($page['intro'] != '') {
+        			include 'php/page_intro.php';
+        		}
+        	?>
         	
             <!-- Main row -->
             <div class="row">
@@ -174,7 +194,10 @@ include ('challenges/' . $lookuprow['src']);
               <!-- /.col -->
             </div>
             
-            <?php echo $page['help'];
+            <?php
+            if ($page['help'] != '') {
+            	include 'php/page_help.php';
+            }
 			include 'php/modal_confirm.php';
 			include 'php/modal_win.php';
             ?>
@@ -229,9 +252,10 @@ include ('challenges/' . $lookuprow['src']);
 	echo "username : $.trim($('#username').text()),";
 	echo "time : sessionStorage.time,";
 	echo "clicks : sessionStorage.clickCount,";
-	echo "chars : sessionStorage.charCount";
+	echo "chars : sessionStorage.charCount,";
+	echo "help : sessionStorage.usedhelp";
 	echo "}, function(data, status) {";
-	if ($number + 1 < count($challengeIDs) - 1) {
+	if ($number + 1 < count($challengeIDs)) {
 		$n = $number + 1;
 		echo "window.location = './challenge.php?n={$n}';";
 	} else {

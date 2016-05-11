@@ -1,42 +1,48 @@
 <?php
 $page = array(
-		'title'           => 'XVWA',
-		'title_separator' => ' :: ',
-		'app_src'         => 'Xtreme Vulnerable Web Application',
-		'subtitle'        => 'Vulnerability - SQL Injection',
+		'title'           => 'SQL Injection',
+		'app_src'         => 'XVWA',
+		'subtitle'        => 'Basic data extraction',
+		'intro'			  => '',
 		'body'            => '',
 		'help'			  => '',
 		'output'		  => '',
 		'scripts'		  => '',
-		'page_id'         => '',
 		'required_db'     => 'xvwa'
 	);
-$page['page_id'] = 'sqli';
 
-$page['help'] .= "<div class='row'><div class='col-md-12'><div class='box box-primary'>";
-$page['help'] .= "<div class='box-header'><h3 class='box-title'>Help Section</h3>";
-$page['help'] .= "<div class='box-tools pull-right'><button class='btn btn-box-tool' data-widget='collapse'><i class='fa fa-minus'></i></button>";
-$page['help'] .= "<button class='btn btn-box-tool' data-widget='remove'><i class='fa fa-times'></i></button></div></div>";
-$page['help'] .= "<div class='box-body'>";
-$page['help'] .= "<h4>Intro</h4><p>";
-$page['help'] .= "This answer for this challenge is within a different table to the query currently being used.</p>";
-$page['help'] .= "<p>In order to get the answer for this challenge, the passwords must be dumped from the users table within the xvwa database</p>";
-$page['help'] .= "<h4>Hints</h4>";
-$page['help'] .= "<ul><li>The current database is 'xvwa'</li>";
-$page['help'] .= "<li>The table queried by the original SELECT is 'caffaine'</li>";
-$page['help'] .= "<li>The table holding the answer is 'users' in the same database</li>";
-$page['help'] .= "<li>Try using the UNION command</li>";
-$page['help'] .= "<li>The column names within 'users' are 'username' and 'password'</li></ul>";
-$page['help'] .= "</div></div>";
-$page['help'] .= "<div class='box collapsed-box box-danger'><div class='box-header'><h3 class='box-title'>Solution</h3><div class='box-tools pull-right'><button class='btn btn-box-tool' data-widget='collapse'><i class='fa fa-plus'></i></button><button class='btn btn-box-tool' data-widget='remove'><i class='fa fa-times'></i></button></div></div>";
-$page['help'] .= "<div class='box-body'>";
+$page['intro'] .= "	<p>
+						When an SQL injection vulnerability exists, it will often be possible to extract information from other 
+						tables on the SQL server.
+					</p>
+					<p>
+						For example, in this challenge the query built into the web page to provide the functionality queries the 
+						'caffaine' table of the 'xvwa' database. In order to complete the challenge, you must dump the passwords 
+						for the 'users' table within the same database.
+					</p>
+					<p>
+						Normally, these exploits would be carried out blind, with little to no advance knowledge of the database 
+						structure. This means that pivoting to other tables can often involve a lot of trial and error to get the 
+						correct format for the injected query string. Depending on how the web server is configured, PHP error 
+						messages may or may not be displayed on the web page and this can have a serious effect on the difficulty 
+						of designing a query to inject.
+					</p>
+					<h4>
+						In this example, some extra information is given to remove some of these steps and simplify the process 
+						for the purposes of the challenge. More advanced versions are available.
+					</h4>
+					<ul>
+						<li>The objective table is 'users' within the 'xvwa' database.</li>
+						<li>The columns within this table are 'username' and 'password'</li>
+					</ul>";
+
 $page['help'] .= "<p>The query being built from the text input field is currently</p>";
 $page['help'] .= "<code>SELECT * FROM caffaine WHERE idname LIKE '%[input]%';</code>";
-$page['help'] .= "<p>The UNION command can be used here to join the content of another table into the result list. 5 outputs are shown on the screen, so intially 5 columns can be passed to the ORDER BY</p>";
+$page['help'] .= "<p>The UNION command can be used here to join the content of another table into the result list. 5 outputs are shown on the screen, so intially 5 columns should be passed to the UNION</p>";
 $page['help'] .= "<code>SELECT * FROM caffaine WHERE idname LIKE '%<span color='red'>%' UNION SELECT 1,2,3,4,5 FROM xvwa.users;#</span>%';</code>";
-$page['help'] .= "<p>This will return an error due to the number of columns being returned by the <code>SELECT * FROM caffaine</code> is not 5. Try increasing this one at a time (i.e. add another column to the UNION SELECT arguments) until the page displays. The values arguments to the UNION should be at the bottom of the generated web page</p>";
-$page['help'] .= "<p>The initial command is evidently returning 7 columns, and only some of these are being displayed. Column names can be switched for the numbers used to return the values needed from the other table.</p>";
-$page['help'] .= "</div></div></div></div>";
+$page['help'] .= "<p>This will return an error, suggesting that the numbber of columns returned by the <code>SELECT * FROM caffaine</code> is not 5. Try increasing this one at a time (i.e. add another column to the UNION SELECT arguments) until the page displays. The arguments passed to the UNION should be visible in the final table of output</p>";
+$page['help'] .= "<p>Only 5 outputs are shown in the tables. Once the query runs correctly, column names can be switched for the numbers passed to the UNION statement. Make sure to replace the numbers which appear in the table so that the results are visible on the page.</p>";
+
 
 
 $page['body'] .= "<div class='row'><div class='col-md-4 col-md-offset-4'><div class='box'>";

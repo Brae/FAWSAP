@@ -1,17 +1,15 @@
 <?php
 $page = array(
 		'title'           => 'Command Injection',
-		'title_separator' => ' :: ',
 		'app_src'         => 'DVWA',
-		'subtitle'        => 'Ping',
+		'subtitle'        => 'Exploiting unsanitised shell_exec',
+		'intro'			  => '',
 		'body'            => '',
 		'help'			  => '',
 		'output'		  => '',
 		'scripts'		  => '',
-		'page_id'         => '',
 		'required_db'     => 'dvwa'
 	);
-$page['page_id'] = 'sqli';
 
 $page['help'] .= "<div class='row'><div class='col-md-12'><div class='box box-primary'>";
 $page['help'] .= "<div class='box-header'><h3 class='box-title'>Help Section</h3>";
