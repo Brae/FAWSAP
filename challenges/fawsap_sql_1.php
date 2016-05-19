@@ -46,11 +46,11 @@ if (isset($_POST['uname'])) {
 							<div class='box-body'>
 								<div class='form-group'>
 									<label for='uname'>Username</label>
-									<input type='text' name='uname' id='uname' size='15'>
+									<input type='text' class='form-control' name='uname' id='uname' size='15'>
 								</div>
 								<div class='form-group'>
 									<label for='pass'>Password</label>
-									<input type='password' name='pass' id='pass' placeholder='' size='15'>
+									<input type='password' class='form-control' name='pass' id='pass' placeholder='' size='15'>
 								</div>
 							</div>
 							<div class='box-footer'>

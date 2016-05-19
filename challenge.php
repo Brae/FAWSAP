@@ -75,6 +75,7 @@ if (isset($_SESSION['current_playlist'])) {
 		}
 	}
 	echo "<div id='challengeID' style='display:none;'>" . $challengeIDs[$number] . "</div>";
+	echo "<div id='difficulty' class='hidden'>".$lookuprow['difficulty']."</div>";
 } else if (isset($_SESSION['category'])) {
 	$challengeIDs = array();
 	$catResults = mysqli_query($db, "SELECT * FROM challenges WHERE category = '{$_SESSION['category']}';");
@@ -178,6 +179,10 @@ include ('challenges/' . $lookuprow['src']);
                   	<?php echo $page['scripts']; ?>
                     <!-- START IFRAME-->
                     <?php echo $page['body']; ?>
+                    
+                    <?php if ($page['output'] != '') {
+                    	echo $page['output'];
+                    } ?>
                     <!--END IFRAME-->
                     
                     <!-- Hidden box for loaded challenges to use if needed -->
@@ -208,15 +213,7 @@ include ('challenges/' . $lookuprow['src']);
       </div><!-- /.content-wrapper -->
 
       <!-- Main Footer -->
-      <footer class="main-footer">
-        <!-- To the right -->
-        <div class="pull-right hidden-xs">
-          Anything you want
-        </div>
-        <!-- Default to the left -->
-        <strong>Copyright &copy; 2015 <a href="#">Company</a>.</strong> All rights reserved.
-        
-      </footer>
+      <?php include './php/part_footer_challenge.php'; ?>
 
       <!-- Control Sidebar -->
       <?php

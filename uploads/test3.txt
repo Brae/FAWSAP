@@ -1,5 +1,0 @@
-1	admin	admin@getmantra.com
-1	tom	tom@getmantra.com
-1	ron	ron@getmantra.com
-1	harry	harry@getmantra.com
-1	wesley	jKYp9Yv3MCR7660
