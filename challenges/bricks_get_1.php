@@ -21,7 +21,7 @@ $page['intro'] .= "	<p>
 						never be used for anything involving sensitive data.
 					</p>
 					<h4>
-						To complete this challenge, the information relating to the user 'Wesley' must be accessed.
+						To complete this challenge, the information relating to the user 'Wesley' must be read.
 					</h4>";
 
 require_once "./php/config_user.php";

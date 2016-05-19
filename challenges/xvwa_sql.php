@@ -29,7 +29,7 @@ $page['intro'] .= "	<p>
 					</p>
 					<h4>
 						In this example, some extra information is given to remove some of these steps and simplify the process 
-						for the purposes of the challenge. More advanced versions are available.
+						for the purposes of the challenge.
 					</h4>
 					<ul>
 						<li>The objective table is 'users' within the 'xvwa' database.</li>

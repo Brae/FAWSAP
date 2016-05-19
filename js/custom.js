@@ -63,14 +63,27 @@ function start() {
 
 	});
 
-	var search = setInterval(function() {
-		if ($('div[id="challengecanvas"]:contains("jKYp9Yv3MCR7660"):not("script")').length > 0) {
-			clearTimeout(search);
-			time = timer.getTimeValues().toString();
-			timer.stop();
-			sessionStorage.setItem('running', false);
-			$('#winmodal').modal('show');
-		}
-	}, 1000);
+	if ($('#difficulty').text() == "1") {
+		var search = setInterval(function() {
+			if ($('div[id="challengecanvas"]:contains("jKYp9Yv3MCR7660"):not("script")').length > 0) {
+				clearTimeout(search);
+				time = timer.getTimeValues().toString();
+				timer.stop();
+				sessionStorage.setItem('running', false);
+				$('#winmodal').modal('show');
+			}
+		}, 1000);
+
+	} else if ($('#difficulty').text() == "2") {
+		var search = setInterval(function() {
+			if ($('div[id="challengecanvas"]:contains("a5BNEkgDNEUn"):not("script")').length > 0) {
+				clearTimeout(search);
+				time = timer.getTimeValues().toString();
+				timer.stop();
+				sessionStorage.setItem('running', false);
+				$('#winmodal').modal('show');
+			}
+		}, 1000);
+	}
 
 }
