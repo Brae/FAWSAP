@@ -190,7 +190,7 @@ include ('challenges/' . $lookuprow['src']);
                   </div>
                   <!-- /.box-body -->
                   <div class="box-footer text-center">
-                    <a href="javascript::;" class="uppercase">END FOOTER</a>
+                    <?php include './php/part_footer_challenge.php'; ?>
                   </div>
                   <!-- /.box-footer -->
                 </div>
@@ -213,7 +213,15 @@ include ('challenges/' . $lookuprow['src']);
       </div><!-- /.content-wrapper -->
 
       <!-- Main Footer -->
-      <?php include './php/part_footer_challenge.php'; ?>
+      <footer class="main-footer">
+				<!-- To the right -->
+				<div class="pull-right hidden-xs">
+					Anything you want
+				</div>
+				<!-- Default to the left -->
+				<strong>Copyright &copy; 2015 <a href="#">Company</a>.</strong> All rights reserved.
+		</footer>
+      
 
       <!-- Control Sidebar -->
       <?php

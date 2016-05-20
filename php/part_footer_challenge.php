@@ -1,6 +1,6 @@
-<footer class="main-footer">
-	<div class="row">
-		<div class="col-md-4 col-md-offset-4 text-center">
+
+	<!--<div class="row">-->
+		<!--<div class="text-center">-->
 			<ul class="pagination">
 				<?php
 					$num_elements = count($challengeIDs);
@@ -10,8 +10,8 @@
 					}				
 				?>
 			</ul>
-		</div>
-	</div>
+		<!--</div>-->
+	<!--</div>-->
 	<!-- To the right -->
 	<!--<div class="pull-right hidden-xs">
 		Anything you want
@@ -19,4 +19,3 @@
 	<!-- Default to the left -->
 	<!--<strong>Copyright &copy; 2015 <a href="#">Company</a>.</strong> All rights reserved.-->
 
-</footer>
