@@ -84,6 +84,16 @@ function start() {
 				$('#winmodal').modal('show');
 			}
 		}, 1000);
+	} else if ($('#difficulty').text() == "3") {
+		var search = setInterval(function() {
+			if ($('div[id="challengecanvas"]:contains("PZi8UTDvy49S"):not("script")').length > 0) {
+				clearTimeout(search);
+				time = timer.getTimeValues().toString();
+				timer.stop();
+				sessionStorage.setItem('running', false);
+				$('#winmodal').modal('show');
+			}
+		}, 1000);
 	}
 
 }

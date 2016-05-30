@@ -92,6 +92,8 @@ if (isset($_SESSION['current_playlist'])) {
 	if (isset($_SESSION['current_playlist'])) {
 		unset($_SESSION['current_playlist']);
 	}
+	echo "<div id='challengeID' style='display:none;'>" . $challengeIDs[$number] . "</div>";
+	echo "<div id='difficulty' class='hidden'>".$lookuprow['difficulty']."</div>";
 }
 
 include ('challenges/' . $lookuprow['src']);

@@ -8,7 +8,7 @@ $page = array(
 	'help' => '',
 	'output' => '',
 	'scripts' => '',
-	'required_db' => 'inject'
+	'required_db' => 'challenges'
 );
 
 $page['intro'] .= "	<p>
@@ -30,7 +30,7 @@ $page['body'] .= "<div class='row'><div class='col-md-4 col-md-offset-4'><div cl
 $footer = '';
 require_once './php/config_user.php';
 if (isset($_POST['uname'])) {
-	$sql = "SELECT idusers, name, lang FROM users WHERE name='{$_POST['uname']}' AND password='{$_POST['pass']}' LIMIT 1;";
+	$sql = "SELECT uid, username FROM users WHERE username='{$_POST['uname']}' AND password='{$_POST['pass']}' LIMIT 1;";
 	$result = mysqli_query($db_user, $sql) or die ($page['output'] .= "<p>PHP/MySQL error</p>");
 	if (mysqli_num_rows($result) > 0) {
 		$footer = "<p><b>You are now logged in</b></p>";

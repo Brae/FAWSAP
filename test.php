@@ -4,13 +4,13 @@
 		
 	</head>
 	<body>
+		<?php
+			echo $_SESSION['chall_user_login'];
+		?>
 		
 	</body>
 	
 	
 	<script>
-		function alert(s) {
-			console.log("ALERT");
-		}
 	</script>
 </html>

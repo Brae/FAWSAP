@@ -4,20 +4,19 @@
         <section class="sidebar">
 
           <!-- Sidebar user panel (optional) -->
-          <div class="user-panel" style="margin-top:15px;margin-bottom:15px">
+          <!--<div class="user-panel" style="margin-top:15px;margin-bottom:15px">
             <div class="pull-left image">
               <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
-              <p><?php echo $name; ?></p>
+              <p><?php echo $name; ?></p>-->
               <!-- Status -->
-              <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+              <!--<a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
-          </div>
+          </div>-->
 
           <!-- Sidebar Menu -->
           <ul class="sidebar-menu">
-            <li class="header">MAIN</li>
             <li<?php if (basename($_SERVER['PHP_SELF']) == "index.php") {echo " class='active'";} ?>><a href="./index.php"><i class="fa fa-home"></i> <span>Home</span></a></li>
             <li<?php if (basename($_SERVER['PHP_SELF']) == "leaderboard.php") {echo " class='active'";} ?>><a href="./leaderboard.php"><i class="fa fa-bar-chart"></i> <span>LeaderBoard</span></a></li>
             <li class="header">CATEGORIES</li>

@@ -11,7 +11,7 @@ $page = array(
 		'help'			  => '',
 		'output'		  => '',
 		'scripts'		  => '',
-		'required_db'     => 'dvwa'
+		'required_db'     => 'challenges'
 	);
 
 
@@ -34,7 +34,7 @@ if(isset($_REQUEST[ 'id' ])) {
 	$id = $_REQUEST[ 'id' ];
 
 	// Check database
-	$query  = "SELECT first_name, last_name FROM users WHERE user_id = '$id';";
+	$query  = "SELECT first_name, last_name FROM users WHERE uid = '$id';";
 	$result = mysqli_query($db_user, $query ) or die( '<pre>' . mysqli_error() . '</pre>' );
 
 	// Get results

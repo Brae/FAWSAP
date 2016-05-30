@@ -8,7 +8,7 @@ $page = array(
 		'help'			  => '',
 		'output'		  => '',
 		'scripts'		  => '',
-		'required_db'     => 'xvwa'
+		'required_db'     => 'challenges'
 	);
 
 $page['intro'] .= "	<p>
@@ -17,7 +17,7 @@ $page['intro'] .= "	<p>
 					</p>
 					<p>
 						For example, in this challenge the query built into the web page to provide the functionality queries the 
-						'caffaine' table of the 'xvwa' database. In order to complete the challenge, you must dump the passwords 
+						'caffaine' table of the 'xvwa' database. In order to complete the challenge, you must dump the emails 
 						for the 'users' table within the same database.
 					</p>
 					<p>
