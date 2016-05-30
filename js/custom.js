@@ -65,6 +65,7 @@ function start() {
 
 	if ($('#difficulty').text() == "1") {
 		var search = setInterval(function() {
+			console.log('tick tock');
 			if ($('div[id="challengecanvas"]:contains("jKYp9Yv3MCR7660"):not("script")').length > 0) {
 				clearTimeout(search);
 				time = timer.getTimeValues().toString();

@@ -8,7 +8,7 @@ $page = array(
 	'help' => '',
 	'output' => '',
 	'scripts' => '',
-	'required_db' => 'dvwa'
+	'required_db' => ''
 );
 
 // Is there any input?
@@ -19,8 +19,8 @@ if( array_key_exists( "name", $_GET ) && $_GET[ 'name' ] != NULL ) {
 $page['scripts'] .= "<script>
 (function() {
 	var old_alert = alert;
-	var flag = 'jKYp9Yv3';
-	var flag = flag + 'MCR7660';
+	var flag = 'a5BNEk';
+	var flag = flag + 'gDNEUn';
 	alert = function(val) {
 		$('#answerbox').html(flag);
 		old_alert.call(this, val);

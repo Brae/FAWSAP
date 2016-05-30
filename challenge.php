@@ -50,13 +50,20 @@ if (isset($_GET['n'])) {
 if (isset($_GET['playlist'])) {
 	if ($_GET['playlist'] == "0") {
 		$_SESSION['n'] = 0;
-		$_SESSION['playlist'] = "";
+		$_SESSION['current_playlist'] = "";
 		header('Location: ./index.php');
 	} else {
 		$_SESSION['current_playlist'] = $_GET['playlist'];
+		if (isset($_SESSION['category'])) {
+			unset($_SESSION['category']);
+		}
 	}
 }  else if (isset($_GET['category'])) {
 	$_SESSION['category'] = $_GET['category'];
+	if (isset($_SESSION['current_playlist'])) {
+		unset($_SESSION['current_playlist']);
+		$number = 0;
+	}
 }
 
 if (isset($_SESSION['current_playlist'])) {

@@ -34,14 +34,15 @@ if(isset($_REQUEST[ 'id' ])) {
 	$id = $_REQUEST[ 'id' ];
 
 	// Check database
-	$query  = "SELECT first_name, last_name FROM users WHERE uid = '$id';";
+	$query  = "SELECT first_name, last_name, email FROM users WHERE uid = '$id';";
 	$result = mysqli_query($db_user, $query ) or die( '<pre>' . mysqli_error() . '</pre>' );
 
 	// Get results
 	while ($row = mysqli_fetch_assoc($result)) {
 		$first = $row['first_name'];
 		$last = $row['last_name'];
-		$html .= "<pre>ID: {$id}<br />First name: {$first}<br />Surname: {$last}</pre>";
+		$email = $row['email'];
+		$html .= "<pre>ID: {$id}<br />First name: {$first}<br />Surname: {$last}<br />Email: {$email}</pre>";
 	}
 
 	mysqli_close($db_user);
