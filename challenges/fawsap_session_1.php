@@ -8,7 +8,7 @@ $page = array(
 	'help' => '',
 	'output' => '',
 	'scripts' => '',
-	'required_db' => 'fawsap'
+	'required_db' => 'challenges'
 );
 
 $page['intro'] .= "	<p>
